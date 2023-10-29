@@ -5,5 +5,4 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='index'),
     path('about/', views.AboutView.as_view(), name='about'),
     path('register/', views.RegisterView.as_view(), name='register'),
-    path('login/', views.LoginView.as_view(), name='login'),
 ]
