@@ -1,0 +1,38 @@
+{% extends 'base.html' %} 
+{% block content %}
+
+<div class="md:w-1/2 m-auto border rounded px-4 my-10 py-2 bg-gray-50">
+  <h1 class="text-center font-bold text-3xl py-4">会員登録</h1>
+<form method="post" class="space-y-4">
+  {% csrf_token %}
+
+  {% for field in form %}
+    <div class="space-y-2">
+      <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700">
+        {{ field.label }}
+      </label>
+      <input type="{{ field.field.widget.input_type }}"
+             name="{{ field.name }}"
+             id="{{ field.id_for_label }}"
+             class="mt-1 p-2 w-full border rounded-md {{ field.errors|yesno:'border-red-500,focus:border-blue-500' }}"
+             value="{{ field.value|default:'' }}"
+             {% if field.field.required %}required{% endif %}>
+             
+      {% for error in field.errors %}
+        <p class="text-sm text-red-500">{{ error }}</p>
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+  <div class="flex justify-center mt-4">
+    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md">
+      アカウント作成
+    </button>
+  </div>
+  <div class="flex justify-center mt-2">
+    <a class="text-sm text-blue-400" href="{% url 'login'%}">アカウントをお持ちの方</a>
+  </div>
+</form>
+</div>
+
+{% endblock %}

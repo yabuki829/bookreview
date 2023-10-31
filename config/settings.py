@@ -139,10 +139,36 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'api.User'
 
 
+
+# .env設定
+
+import os
+import environ
+from pathlib import Path
+
+# プロジェクトのルートディレクトリを取得
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# .envファイルを読み込む
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, '.env'))
+
 #  Authentication #
 ###################
 
 LOGIN_REDIRECT_URL = "index"
 LOGOUT_REDIRECT_URL = "/accounts/login/"
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env("GMAIL")
+EMAIL_HOST_PASSWORD = env('GMAIL_PASSWORD')
+

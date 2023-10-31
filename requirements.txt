@@ -1,4 +1,5 @@
-Django==3.2.8  
+Django==3.2.14
 djangorestframework==3.12.4  
 django-cors-headers==3.10.0  
 Pillow==8.3.2 
+django-environ

@@ -42,10 +42,5 @@ class AboutView(View):
   def get(self,request):
     return render(request, 'about.html')
 
-class LoginView(View):
-  def get(self,request):
-    return render(request, 'login.html')
 
-class RegisterView(View):
-  def get(self,request):
-    return render(request, 'register.html')  
+
