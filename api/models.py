@@ -15,6 +15,7 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, email, password):
         user = self.create_user(email, password)
+        user.is_active = True
         user.is_staff = True
         user.is_superuser = True
         user.save(using=self._db)
@@ -47,8 +48,13 @@ class Profile(models.Model):
       return self.name
 
 class Book(models.Model):
-    isbn = models.CharField(max_length=13)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    isbn = models.CharField(max_length=13, unique=True)
     title = models.CharField(max_length=255)
+    subTitle = models.CharField(max_length=255,default="")
+    # 作者が複数人いる場合は代表者一名のみ表示する
+    author = models.CharField(max_length=255,default="None")
+    description = models.TextField(default="") 
     published_at = models.DateField()
     image = models.ImageField(upload_to='medias/books/images/')
     def __str__(self):
@@ -62,3 +68,41 @@ class Review(models.Model):
 
     def __str__(self):
       return self.content
+
+
+
+# TODO 今後実装予定の本のランキング
+
+# class Ranking(models.Model):
+#     name = models.CharField(max_length=200)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     books = models.ManyToManyField(Book, through='RankingEntry')
+
+#     def __str__(self):
+#         return self.name
+
+# class RankingEntry(models.Model):
+#     book = models.ForeignKey(Book, on_delete=models.CASCADE)
+#     ranking = models.ForeignKey(Ranking, on_delete=models.CASCADE)
+    # 投票数を数字でなくuserにした方が良さそう?
+#     votes = models.PositiveIntegerField(default=0)
+
+#     class Meta:
+#         unique_together = ('book', 'ranking')
+
+#     def __str__(self):
+#         return f"{self.book.title} in {self.ranking.name}"
+
+# class Vote(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE)
+#     ranking_entry = models.ForeignKey(RankingEntry, on_delete=models.CASCADE)
+#     created_at = models.DateTimeField(auto_now_add=True)
+
+#     class Meta:
+#         unique_together = ('user', 'ranking_entry')
+
+#     def __str__(self):
+#         return f"{self.user.username} voted for {self.ranking_entry.book.title}"
+
+
+# TODO : unique_togetherについて記事を書く

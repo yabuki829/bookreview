@@ -28,8 +28,8 @@
           </svg>
           <span class="sr-only">Search icon</span>
         </div>
-        <form action="POST">
-          <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
+        <form method="get" action="{% url 'search_books' %}" >
+          <input type="text" name="q" value="{{ query }}" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search...">
         </form>
         </div>
       <button data-collapse-toggle="navbar-search" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-end text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-search" aria-expanded="false">
@@ -47,8 +47,10 @@
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
             </svg>
           </div>
-          <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-gray-700 dark:bg-gray-900 dark:border-gray-200 dark:placeholder-gray-200 dark:text-white dark:focus:ring-gray-200 dark:focus:border-gray-200" placeholder="Search...">
-        </div>
+          <form method="get" action="{% url 'search_books' %}" >
+            <input type="text" name="q" value="{{ query }}" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-gray-700 dark:bg-gray-900 dark:border-gray-200 dark:placeholder-gray-200 dark:text-white dark:focus:ring-gray-200 dark:focus:border-gray-200" placeholder="Search...">
+          </form>
+          </div>
         <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-blue-500 dark:border-gray-700">
           <li>
             <a href="{% url 'about' %}" class="block py-2 px-2  text-white rounded  hover:text-bg-blue-300  font-bold  mx-2">ブックレビューとは</a>
@@ -88,13 +90,14 @@
 
 
 
-<div class="w-2/3 mx-auto flex-grow">
+<div class="md:w-2/3 mx-4 md:mx-auto flex-grow">
+
   {% block content %}
   {% endblock %}
 </div>
 <footer class="bg-gray-800 text-white py-6 mt-10">
   <div class="container mx-auto text-center">
-      <p class="mb-4">© 2023 Your Company Name. All Rights Reserved.</p>
+      <p class="mb-4">© 2023  BookReview. All Rights Reserved.</p>
       <div class="space-x-4">
           <a href="#" class="text-gray-300 hover:text-white">Terms of Service</a>
           <a href="#" class="text-gray-300 hover:text-white">Privacy Policy</a>

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="m-3 font-bold mb-4">お探しの本が見つからない場合はISBNで検索してください</h1>
+
+<div class="">
+    <div class="flex flex-wrap -mx-2">
+        {% for book in books %}
+        <div class="w-full mb-4 mx-2 ">
+          <a href="{% url 'book_detail' book.id %}" class=" block bg-white ">
+            <div class="flex items-center">
+              <img class=" object-cover" src="{{ book.image.url }}" alt="{{ book.title }}">
+              <div class="p-2">
+                <h2 class="font-bold text-sm md:text-2xl">{{ book.title }}</h2>
+                <p class="text-gray-700 text-base md:font-bold">{{ book.description|truncatechars:100}}</p>
+                <p class="text-gray-700 text-base text-right">{{book.published_at}}</p>
+              </div>
+              
+            </div>
+          
+             
+            
+            
+          </a>
+          <br>
+         <hr>
+        </div>
+        
+        {% empty %}
+            <p class="text-gray-700">該当する本が見つかりません。ISBNで検索してください。</p>
+        {% endfor %}
+
+    </div>
+  
+    
+<nav class="flex justify-center">
+  <ul class="inline-flex -space-x-px text-sm">
+    {% if books.has_previous %}
+    <li>
+      <a href="?q={{ query }}&page={{ books.previous_page_number }}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">前へ</a>
+    </li>
+    {% endif %}
+
+    {% for num in page_range %}
+    <li>
+      {% if books.number == num %}
+      <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ num }}</a>
+      {% else %}
+      <a href="?q={{ query }}&page={{ num }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ num }}</a>
+      {% endif %}
+    </li>
+    {% endfor %}
+
+    {% if books.has_next %}
+      <li>
+        <a href="?q={{ query }}&page={{ books.next_page_number }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">次へ</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+    
+</div>
+{% endblock %}
+
+
+
