@@ -5,6 +5,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+
   {% block title %} {% endblock %}
 </head>
 <body class="flex flex-col min-h-screen ">
@@ -55,12 +57,20 @@
           <li>
             <a href="{% url 'about' %}" class="block py-2 px-2  text-white rounded  hover:text-bg-blue-300  font-bold  mx-2">ブックレビューとは</a>
           </li>
-          <li>
-            <a href="{% url 'login' %}" class="block py-2 px-2 text-white md:text-gray-700 rounded md:bg-white mx-2 ">ログイン</a>
-          </li>
-          <li>
-            <a href="{% url 'signup' %}" class="block py-2 px-2  text-white rounded dark:text-white md:bg-orange-400 mx-2">会員登録</a>
-          </li>
+          {% if request.user.is_authenticated %}
+           
+            <li>
+              <a href="#" class="block py-2 px-2 text-white md:text-gray-700 rounded md:bg-white mx-2">マイページ</a>
+            </li>
+           
+          {% else %}
+            <li>
+              <a href="{% url 'login' %}" class="block py-2 px-2 text-white md:text-gray-700 rounded md:bg-white mx-2 ">ログイン</a>
+            </li>
+            <li>
+              <a href="{% url 'signup' %}" class="block py-2 px-2 text-white rounded dark:text-white md:bg-orange-400 mx-2">会員登録</a>
+            </li>
+          {% endif %}
           
         </ul>
       </div>

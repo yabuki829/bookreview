@@ -31,3 +31,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Profile)
 admin.site.register(Review)
 admin.site.register(Book)
+

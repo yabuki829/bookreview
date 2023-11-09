@@ -47,6 +47,8 @@ class Profile(models.Model):
     def __str__(self):
       return self.name
 
+from django.db.models import Avg
+
 class Book(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     isbn = models.CharField(max_length=13, unique=True)
@@ -56,18 +58,43 @@ class Book(models.Model):
     author = models.CharField(max_length=255,default="None")
     description = models.TextField(default="") 
     published_at = models.DateField()
+    # image = models.ImageField(upload_to='books/images/')
     image = models.ImageField(upload_to='medias/books/images/')
+    # 本の評価の平均
+    average_rating = models.FloatField(default=0.0, blank=True)
+    review_count = models.IntegerField(default=0, blank=True)
+
     def __str__(self):
-      return self.title
+        return self.title
+    # 本のレビューを追加したら再計算させる
+    def update_ratings(self):
+        average = self.reviews.aggregate(average=Avg('rating'))['average']
+        self.average_rating = average if average is not None else 0.0
+        self.review_count = self.reviews.count()
+        self.save()
+
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import transaction
 
 class Review(models.Model):
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name="reviews")
+    rating = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        help_text="1から5の範囲で評価をつけてください。",
+        default=1,
+    )
 
     def __str__(self):
-      return self.content
+        return "「" + self.book.title +"」："+ self.content
+    # ... その他のフィールド ...
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        with transaction.atomic():
+            self.book.update_ratings()
 
 
 
