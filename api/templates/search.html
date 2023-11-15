@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1 class="m-3 font-bold mb-4">お探しの本が見つからない場合はISBNで検索してください</h1>
+<h1 class="m-3 font-bold mb-4 text-center">お探しの本が見つからない場合はISBNで検索してください</h1>
 
 <div class="">
     <div class="flex flex-wrap -mx-2">
@@ -18,16 +18,14 @@
               
             </div>
           
-             
-            
-            
           </a>
           <br>
          <hr>
         </div>
         
         {% empty %}
-            <p class="text-gray-700">該当する本が見つかりません。ISBNで検索してください。</p>
+            <h1 class="text-gray-700 text-center w-full pb-3">該当する本が見つかりません。</h1>
+
         {% endfor %}
 
     </div>

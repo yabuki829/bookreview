@@ -1,0 +1,13 @@
+<!-- poll_vote.html -->
+
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">投票する</button>
+</form>
+{% endblock %}

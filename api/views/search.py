@@ -14,6 +14,18 @@ from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
+from datetime import datetime
+
+def parse_partial_date(date_str):
+    if date_str:
+        for date_format in ("%Y-%m-%d", "%Y-%m"):
+            try:
+                return datetime.strptime(date_str, date_format).date()
+            except ValueError:
+                continue
+    return None  
+
+
 class SearchView(View):
   def get(self,request):
     query = request.GET.get('q', '')  # 検索クエリを取得
@@ -46,9 +58,11 @@ class SearchView(View):
                           image_temp = BytesIO(image_response.content)
 
                   # 出版日処理
+                  
                   published_date = book_info.get('publishedDate', '')
-                  published_at = parse_date(published_date) if published_date else None
-
+                  print(published_date,"ここだよ")
+                  published_at = parse_partial_date(published_date)
+                  print(published_at, "変換後の日付")
                   # ローカルに本の情報を保存する
                   book = Book(
                       isbn=query,

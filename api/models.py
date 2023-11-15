@@ -63,7 +63,7 @@ class Book(models.Model):
     # 本の評価の平均
     average_rating = models.FloatField(default=0.0, blank=True)
     review_count = models.IntegerField(default=0, blank=True)
-
+    
     def __str__(self):
         return self.title
     # 本のレビューを追加したら再計算させる
@@ -97,6 +97,34 @@ class Review(models.Model):
             self.book.update_ratings()
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=30, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+# TODO 投票機能
+class Poll(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_polls')
+    question = models.CharField(max_length=255)
+    books = models.ManyToManyField(Book)  # 選択肢となる本のリスト
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.question
+
+class Vote(models.Model):
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    voted_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('poll', 'user')  # 各ユーザーは各投票に対して1回だけ投票できる
+
+    def __str__(self):
+        return f"{self.user.username} voted on {self.poll.question}"
 
 # TODO 今後実装予定の本のランキング
 
