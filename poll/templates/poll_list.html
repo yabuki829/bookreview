@@ -1,0 +1,68 @@
+<!-- poll_list.html -->
+
+{% extends 'base.html' %}
+{% load static %} 
+{% block content %}
+<div class="container mx-auto mt-2">
+  <div class="relative">
+    <img class="hidden md:block w-full h-auto" src="{% static 'images/vote.sp.jpg' %}" alt="">
+    <img class="block md:hidden w-full h-auto" src="{% static 'images/vote.sp.jpg' %}" alt="">
+    
+    {% if request.user.is_authenticated %}
+
+    <a href="{% url 'create_poll' %}" class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+      <span class="bg-white bg-opacity-75 py-2 px-4 rounded text-gray-700 font-bold">Pollを作成する</span>
+    </a>
+    {% endif %}
+      
+   
+</div>
+
+  <br>
+  <hr>
+  <br>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for poll in polls %}
+          <a href="{% url 'poll_vote' poll.id %}" class="bg-white rounded-lg shadow-md overflow-hidden hover:bg-gray-100">
+              <div class="p-4">
+                <p class="text-gray-600">作成者: {{ poll.creator }}</p>
+                  <h2 class="text-xl font-bold mb-2">{{ poll.question }}</h2>
+                 
+                  
+                 
+              </div>
+          </a>
+      {% empty %}
+          <p>利用可能な投票はありません。</p>
+      {% endfor %}
+  </div>
+</div>
+<br>
+  <nav class="flex justify-center">
+    <ul class="inline-flex -space-x-px text-sm">
+      {% if polls.has_previous %}
+      <li>
+        <a href="page={{ polls.previous_page_number }}" class="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">前へ</a>
+      </li>
+      {% endif %}
+  
+      {% for num in page_range %}
+      <li>
+        {% if polls.number == num %}
+        <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">{{ num }}</a>
+        {% else %}
+        <a href="page={{ num }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">{{ num }}</a>
+        {% endif %}
+      </li>
+      {% endfor %}
+  
+      {% if polls.has_next %}
+        <li>
+          <a href="page={{ polls.next_page_number }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">次へ</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+  
+{% endblock %}

@@ -84,8 +84,10 @@ class SearchView(View):
     
     paginator = Paginator(books, 20)
     page_number = request.GET.get('page', 1)
-    onEachSide = 3 #選択ページの両側には3コ表示する
-    onEnds = 2 #左右両端には2コ表示する
+    #　選択ページの両側には3コ表示する
+    onEachSide = 3
+    #　左右両端には2コ表示する
+    onEnds = 2 
 
     try:
             books_page = paginator.page(page_number)
@@ -97,9 +99,9 @@ class SearchView(View):
     page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
 
     context = {
-            'books': books_page,  # 修正: books_pageを渡す
+            'books': books_page,  
             'query': query,
-            'page_range': page_range,  # ページレンジをコンテキストに追加
+            'page_range': page_range,  
     }
 
     return render(request, 'search.html', context)

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 # Register your models here.
-from .models import User,Profile,Book,Review,Poll,Vote
+from .models import User,Profile,Book,Review,Poll,Vote,Choice
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
@@ -31,5 +31,8 @@ admin.site.register(User, UserAdmin)
 admin.site.register(Profile)
 admin.site.register(Review)
 admin.site.register(Book)
+admin.site.register(Poll)
+admin.site.register(Choice)
+
 
 

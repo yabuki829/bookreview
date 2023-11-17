@@ -1,0 +1,15 @@
+<!-- poll_results.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h2>投票結果: {{ poll.question }}</h2>
+
+    <ul>
+        {% for choice, count in results %}
+        <li>{{ choice }}: {{ count }}票</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

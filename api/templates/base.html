@@ -88,7 +88,7 @@
                     <a href="{% url 'index' %}" class="text-gray-900 dark:text-white hover:underline">Ranking</a>
                 </li>
                 <li>
-                  <a href="#" class="text-gray-900 dark:text-white hover:underline">Vote</a>
+                  <a a href="{% url 'poll' %}" class="text-gray-900 dark:text-white hover:underline">Poll</a>
                 </li>
                 <li>
                     <a href="{% url 'index' %}" class="text-gray-900 dark:text-white hover:underline">Review</a>
@@ -103,7 +103,7 @@
 
 
 
-<div class="md:w-2/3 mx-4 md:mx-auto flex-grow">
+<div class=" flex-grow">
 
   {% block content %}
   {% endblock %}

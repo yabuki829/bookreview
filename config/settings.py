@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     
     "accounts",# django.contrib.authよりも前に配置しないとtempleteが反映されない
+    "poll",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

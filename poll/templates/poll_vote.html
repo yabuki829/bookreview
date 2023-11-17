@@ -1,0 +1,24 @@
+<!-- poll_vote.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto mt-8">
+    <h2>{{ poll.question }}</h2>
+
+    <form action="{% url 'poll_vote' poll.id %}" method="post">
+        {% csrf_token %}
+        <div class="mb-4">
+            {% for choice in poll.choices.all %}
+            <div>
+                <input type="radio" id="choice{{ choice.id }}" name="choice" value="{{ choice.id }}">
+                <label for="choice{{ choice.id }}">{{ choice.text }}</label>
+            </div>
+            {% endfor %}
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+            投票する
+        </button>
+    </form>
+</div>
+{% endblock %}

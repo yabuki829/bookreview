@@ -1,0 +1,35 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="question" placeholder="質問タイトル">
+  <div>
+    <input type="text" name="choice" class="form-control" placeholder="選択肢">
+  
+    <input type="button" value="＋" class="add pluralBtn">
+    <input type="button" value="－" class="del pluralBtn">
+  </div>
+  
+  <button type="submit">投票を作成する</button>
+</form>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+  $(document).on("click", ".add", function() {
+    let target = $(this).parent();
+    let cloned = target.clone(true);
+    cloned.find("input[type='text']").val(""); // 新しいinputの値を空欄にする
+    cloned.insertAfter(target);
+});
+
+  $(document).on("click", ".del", function() {
+      var target = $(this).parent();
+      if (target.parent().children().length > 1) {
+          target.remove();
+      }
+  });
+</script>
+{% endblock %}
+

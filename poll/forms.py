@@ -1,5 +1,5 @@
 from django import forms
-from .models import Vote,Poll
+from api.models import Poll,Vote
 
 class VoteForm(forms.ModelForm):
     class Meta:

@@ -23,6 +23,8 @@ urlpatterns = [
 
     # 認証系
     path('accounts/', include('accounts.urls')),
+    # 投票系
+    path('poll/', include('poll.urls')),
 ]
 
 if settings.DEBUG:

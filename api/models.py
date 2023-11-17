@@ -59,7 +59,7 @@ class Book(models.Model):
     description = models.TextField(default="") 
     published_at = models.DateField()
     # image = models.ImageField(upload_to='books/images/')
-    image = models.ImageField(upload_to='medias/books/images/')
+    image = models.ImageField(upload_to='books/images/')
     # 本の評価の平均
     average_rating = models.FloatField(default=0.0, blank=True)
     review_count = models.IntegerField(default=0, blank=True)
@@ -108,23 +108,31 @@ class Category(models.Model):
 class Poll(models.Model):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_polls')
     question = models.CharField(max_length=255)
-    books = models.ManyToManyField(Book)  # 選択肢となる本のリスト
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.question
 
+class Choice(models.Model):
+    poll = models.ForeignKey(Poll, related_name='choices', on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)  
+
+    def __str__(self):
+        return self.text
+
 class Vote(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)  
     voted_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ('poll', 'user')  # 各ユーザーは各投票に対して1回だけ投票できる
+        unique_together = ('poll', 'user')
 
     def __str__(self):
         return f"{self.user.username} voted on {self.poll.question}"
+
+        
 
 # TODO 今後実装予定の本のランキング
 
