@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-q4*b+fq$4)_$h-=21e0)bj2hjg#(sy)id6f3-9_36(=jneths-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     
     "accounts",# django.contrib.authよりも前に配置しないとtempleteが反映されない
     "poll",
+    "review",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

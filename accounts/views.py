@@ -20,7 +20,7 @@ from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
-
+from django.views.generic import View
 User = get_user_model()
 
 class SignUpView(CreateView):
@@ -51,3 +51,18 @@ def activate(request, token):
     except User.DoesNotExist:
         return HttpResponse("無効なトークンです。")
 
+
+
+class MyPage(View):
+        # 自分の読んだ本の一覧を表示する
+        # 名前の変更
+        # 自分が投稿したPollを表示する
+        # ログアウト
+        # アカウントの削除　
+        
+    def get(self,request):
+
+        pass
+
+    def post(self,request):
+        pass

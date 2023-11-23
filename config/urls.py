@@ -25,6 +25,8 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     # 投票系
     path('poll/', include('poll.urls')),
+    path('review/', include('review.urls')),
+    
 ]
 
 if settings.DEBUG:

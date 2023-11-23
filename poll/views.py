@@ -12,7 +12,6 @@ def poll_list(request):
     onEachSide = 3
     #　左右両端には2コ表示する
     onEnds = 2 
-
     try:
             poll_page = paginator.page(page_number)
     except PageNotAnInteger:

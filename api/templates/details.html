@@ -9,7 +9,7 @@
     <br>  
     <!-- 本の詳細情報 -->
     <div class="w-full flex  justify-center items-center">
-      <img class="shadow-2xlr mx-4 object-cover" src="{{ book.image.url }}" alt="{{ book.title }}">
+      <img class="shadow-2xlr mx-4 object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
       <div class="p-2 mx-4">
         <h2 class="font-bold text-sm md:text-2xl">{{ book.title }}</h2>
         <p>{{ book.average_rating|stars }} {{book.average_rating}}</p>
@@ -36,6 +36,7 @@
   
   
   <!-- details.html -->
+
   
   
 <div class="reviews">
