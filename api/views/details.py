@@ -12,14 +12,12 @@ class DetailsView(View):
     # book　の isbnがpkの本を表示する
     book = get_object_or_404(Book, pk=pk)
     print(book.title)
-    reviews = book.reviews.all() 
+    reviews = book.reviews.all().order_by('-created_at')
 
     context = {
       'book': book,
       'reviews': reviews,  
     }
-
-        # レンダリングされたレスポンスを返す
     return render(request, "details.html", context)
 
   def post(self,request,pk):

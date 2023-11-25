@@ -1,4 +1,3 @@
-# your_app_name/templatetags/rating_stars.py
 
 from django import template
 from django.utils.safestring import mark_safe
@@ -17,7 +16,7 @@ def star_ratings(value):
     
     full_stars = int(value)
     half_star = 1 if value - full_stars >= 0.5 else 0
-    empty_stars = 5 - full_stars - half_star
+    empty_stars = 5 - full_stars - half_star    
     
     html = full_star_icon * full_stars
     html += half_star_icon * half_star

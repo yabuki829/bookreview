@@ -2,7 +2,12 @@
 {% extends 'base.html' %}
 {% load amazon_links %}
 {% load rating_stars %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}">
+{% endblock %}
 {% block content %}
+
 {% comment %} <div class="container mx-auto"> {% endcomment %}
   <div class="md:w-2/3 mx-4 md:mx-auto flex-grow">
   <div class="w-full mb-4 flex py-5 ">
@@ -34,18 +39,44 @@
   
 
   
-  
-  <!-- details.html -->
+  {% if request.user.is_authenticated  %}
+  <h1>{{book.title}} のレビューを書く</h1>
+  <form action="{% url 'post_review' book.id %}" method="POST">
+    {% csrf_token %}
+    <div class="rating ">
+      <span class="star text-4xl " data-value="1">&#9733;</span>
+      <span class="star text-4xl"" data-value="2">&#9733;</span>
+      <span class="star text-4xl"" data-value="3">&#9733;</span>
+      <span class="star text-4xl"" data-value="4">&#9733;</span>
+      <span class="star text-4xl"" data-value="5">&#9733;</span>
+    </div>
+    <textarea name="content" class="w-full p-2 border border-black" rows="4" required></textarea>
+    
+    <input type="hidden" name="rating" value="1" id="ratingValue">
+    <br>
+    <div class="flex justify-center">
+      <button class="p-2  bg-green-400 font-bold" type="submit">投稿する</button>
+    </div>
+    
+  </form>
+<hr class="my-10">
+  {% endif %}
 
+
+  <h1 class="bg-blue-400 text-white  font-bold p-2 text-center">みんなの感想</h1>
   
+ 
+    
   
-<div class="reviews">
+<div class="mx-2" id="reviews">
   {% for review in reviews %}
     <div class="review">
+      <hr class="py-2">
       <p> {{ review.user.name }}</p>     
       <p>{{ review.content }}</p>
       <p>評価: {{ review.rating|stars }} {{review.rating}}</p>
     </div>
+    
   {% empty %}
     <p>この本にはまだレビューがありません。</p>
   {% endfor %}
@@ -53,4 +84,22 @@
 
 {% comment %} </div> {% endcomment %}
 </div>
+<script>
+  document.querySelectorAll('.star').forEach(function(star) {
+    star.onclick = function() {
+      let rating = this.getAttribute('data-value');
+      document.getElementById('ratingValue').value = rating;
+  
+      updateStars(rating);
+    };
+  });
+  
+  function updateStars(rating) {
+    document.querySelectorAll('.star').forEach(function(star) {
+      let starValue = star.getAttribute('data-value');
+      star.style.color = starValue <= rating ? 'gold' : 'grey';
+    });
+  }
+  
+</script>
 {% endblock %}
