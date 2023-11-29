@@ -25,20 +25,15 @@
   </div>
 
   <br>
-  {% for review in reviews %}
-  
-{% empty %}
-  <p class="text-center">読んだ本はまだありません。</p>
-{% endfor %}
+ 
   
   {% comment %} https://incodethismeans.com/building-a-book-shelf-with-html-and-css {% endcomment %}
 
 
    <h3 class="text-3xl font-bold ml-2">読んだ本</h3>
+
    <section class="bookshelf">
     <div class="floor-thickness"></div>
-    
-   
     <div class="container-book">
       <div class="cuboid">
         <div class="cuboid__face cuboid__face--bottom"></div>
@@ -49,20 +44,31 @@
         <div class="cuboid__face cuboid__face--top"></div>
       </div>
     </div>
-    
 
-    
- 
-  
-    <div class="books-container">
-      <div class="book">Book 1</div>
-      <div class="book">Book 2</div>
-      <div class="book">Book 3</div>
-      <div class="book">Book 4</div>
+
+    <div class="books-container flex flex-wrap justify-center gap-5">
+
+
+
+      {% for review in reviews %}
+
+
+      {% if forloop.counter|divisibleby:3 and not forloop.first %}
+      {% endif %}
+      <div class="book bg-white overflow-hidden shadow-xl transform hover:scale-105 duration-300">
+        <a href="{% url 'book_detail' review.book.id %}">
+          <img class="w-full h-40 object-cover" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
+        </a>
+      </div>
+    {% empty %}
+      <p class="text-center">読んだ本はまだありません。</p>
+    {% endfor %}
     </div>
   
     <div class="floor-thickness"></div>
-
+  </section>
+  
+  
 </div>
 
 {% endblock %}

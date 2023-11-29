@@ -17,7 +17,7 @@ body {
 .container-book {
   width: var(--width);
   height: var(--height);
-  perspective: 500px;
+  perspective: 2000px;
   overflow: hidden;
   background-color: var(--color-shelf-side-panel);
   position: absolute;
