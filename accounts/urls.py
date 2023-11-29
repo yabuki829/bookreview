@@ -2,10 +2,10 @@
 from django.contrib import admin 
 from django.contrib.auth import views
 from django.urls import path,include
-from .views import CustomPasswordResetView,SignUpView,activate
+from .views import CustomPasswordResetView,SignUpView,activate,MyPageView
 
 urlpatterns = [
-    path("",views.LoginView.as_view(),name="account"),
+    path("",MyPageView.as_view(),name="account"),
     path("login/",views.LoginView.as_view(),name="login"),
     path("logout/",views.LogoutView.as_view(),name="logout"),
 

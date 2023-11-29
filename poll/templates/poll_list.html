@@ -13,6 +13,10 @@
     <a href="{% url 'create_poll' %}" class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
       <span class="bg-white bg-opacity-75 py-2 px-4 rounded text-gray-700 font-bold">Pollを作成する</span>
     </a>
+    {% else %}
+    <a href="{% url 'create_poll' %}" class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+      <span class="bg-white bg-opacity-75 py-2 px-4 rounded text-gray-700 font-bold">ログインしてPollを作成する</span>
+    </a>
     {% endif %}
       
    

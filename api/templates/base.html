@@ -4,20 +4,39 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+
+  {% comment %} // favicon編 {% endcomment %}
+<link rel="icon" type="image/x-icon" href="デフォルト">
+
+{% comment %} // Web Clip編 {% endcomment %}
+<link rel="apple-touch-icon" href="Web Clip用のアイコンURL貼る">
+<link rel="apple-touch-icon" sizes="57x57" href="iPhone 3G">
+<link rel="apple-touch-icon" sizes="72x72" href="非Retina版のiPad 2、iPad miniの用、iOS 6以前">
+<link rel="apple-touch-icon" sizes="76x76" href="非Retina版のiPad 2、iPad miniの用、iOS 7以降">
+<link rel="apple-touch-icon" sizes="114x114" href="Retina版のiPhone、iPod touch用、iOS 6以前">
+<link rel="apple-touch-icon" sizes="120x120" href="Retina版のiPhone、iPod touch用、iOS 7以降">
+<link rel="apple-touch-icon" sizes="144x144" href="Retina版のiPad、iPad mini用、iOS 6以前">
+<link rel="apple-touch-icon" sizes="152x152" href="Retina版のiPad、iPad mini用、iOS 7以降">
+<link rel="apple-touch-icon" sizes="180x180" href="iPhone 6 plus">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
  
-  {% block title %} {% endblock %}
+  <title>{% block title %} {% endblock %} </title>
+  
+  {% block mata %}{% endblock mata %}
+    
   {% block css %} {% endblock %}
 
   
 </head>
-<body class="flex flex-col min-h-screen ">
+<body class="flex flex-col min-h-screen bg-gray-100 ">
 
   <nav class="bg-white border-gray-200 dark:bg-blue-500">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-around mx-auto p-4">
     <a href="#" class="flex items-center">
-        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">BookReview</span>
+        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">ツギヨム</span>
     </a>
     <div class="flex md:order-2">
       <button type="button" data-collapse-toggle="navbar-search" aria-controls="navbar-search" aria-expanded="false" class="md:hidden text-gray-500 dark:text-gray-400 hover:bg-blue-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-1" >
@@ -63,7 +82,7 @@
           {% if request.user.is_authenticated %}
            
             <li>
-              <a href="#" class="block py-2 px-2 text-white md:text-gray-700 rounded md:bg-white mx-2">マイページ</a>
+              <a href="{% url 'account' %}" class="block py-2 px-2 text-white md:text-gray-700 rounded md:bg-white mx-2">マイページ</a>
             </li>
            
           {% else %}
@@ -96,9 +115,7 @@
                 <li>
                     <a href="{% url 'review' %}" class="text-gray-900 dark:text-white hover:underline">Review</a>
                 </li>
-                <li>
-                    <a href="#" class="text-gray-900 dark:text-white hover:underline">Features</a>
-                </li>
+               
             </ul>
         </div>
     </div>
@@ -113,7 +130,7 @@
 </div>
 <footer class="bg-gray-800 text-white py-6 mt-10">
   <div class="container mx-auto text-center">
-      <p class="mb-4">© 2023  BookReview. All Rights Reserved.</p>
+      <p class="mb-4">© 2023  tsugiyomu. All Rights Reserved.</p>
       <div class="space-x-4">
           <a href="#" class="text-gray-300 hover:text-white">Terms of Service</a>
           <a href="#" class="text-gray-300 hover:text-white">Privacy Policy</a>

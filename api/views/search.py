@@ -8,7 +8,7 @@ from io import BytesIO
 from django.utils.dateparse import parse_date
 
 from django.shortcuts import render
-from ..models import Book
+from ..models import Book,Category
 
 from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -63,14 +63,20 @@ class SearchView(View):
                   print(published_date,"ここだよ")
                   published_at = parse_partial_date(published_date)
                   print(published_at, "変換後の日付")
+                  # 本のカテゴリ
+                  category_name_en = book_info.get('categories', [''])[0]
+                  category, created = Category.objects.get_or_create(name_en=category_name_en)
+                
                   # ローカルに本の情報を保存する
+                  
                   book = Book(
                       isbn=query,
                       title=book_info.get('title', ''),
                       subTitle=book_info.get("subtitle",""),
                       author=book_info.get('authors', [''])[0],  # 代表者一名のみ取得
                       description=book_info.get('description', ''),
-                      published_at=published_at
+                      published_at=published_at,
+                      category=category
                   )
                   if image_url:
                       book.image.save(f"{query}.jpg", ContentFile(image_temp.getvalue()), save=True)

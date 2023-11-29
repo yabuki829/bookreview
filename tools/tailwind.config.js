@@ -8,8 +8,13 @@ module.exports = {
     content: ['../**/templates/*.html', '../**/templates/**/*.html'],
   },
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'custom-image': "url('http://127.0.0.1:8000/media/wood.jpeg')"
+      }
+    }
   },
   variants: {},
   plugins: [],
+ 
 }

@@ -14,9 +14,14 @@ class DetailsView(View):
     print(book.title)
     reviews = book.reviews.all().order_by('-created_at')
 
+    user_has_reviewed = False
+    if request.user.is_authenticated:
+      user_has_reviewed = book.reviews.filter(user=request.user.profile).exists()
+
     context = {
-      'book': book,
-      'reviews': reviews,  
+            'book': book,
+            'reviews': reviews,
+            'user_has_reviewed': user_has_reviewed,
     }
     return render(request, "details.html", context)
 

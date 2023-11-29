@@ -1,0 +1,68 @@
+
+{% extends 'base.html' %} 
+
+{% block title %}マイページ{% endblock %}
+{% block mata %}
+  <meta name="description" content="ディスクリプション　テスト">
+  <meta name="keywords" content="test,テスト,キーワード">
+  <meta name="author" content="test taro">
+{% endblock %}
+
+{% load static %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/book.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="  bg-white">
+
+
+  {% comment %} 案2 {% endcomment %}
+  <div class="flex flex-col items-center md:w-2/3  mx-3 md:mx-auto">
+    <img src="{{ profile.image.url }}" alt="Profile Image" class="w-32 h-32 md:w-48 md:h-48 object-cover border rounded-full my-8">
+    <h2 class="text-xl font-bold">{{ profile.name }}</h2>
+    <p class="mt-2 mx-10">{{ profile.bio }}</p>
+  </div>
+
+  <br>
+  {% for review in reviews %}
+  
+{% empty %}
+  <p class="text-center">読んだ本はまだありません。</p>
+{% endfor %}
+  
+  {% comment %} https://incodethismeans.com/building-a-book-shelf-with-html-and-css {% endcomment %}
+
+
+   <h3 class="text-3xl font-bold ml-2">読んだ本</h3>
+   <section class="bookshelf">
+    <div class="floor-thickness"></div>
+    
+   
+    <div class="container-book">
+      <div class="cuboid">
+        <div class="cuboid__face cuboid__face--bottom"></div>
+        <div class="cuboid__face cuboid__face--front"></div>
+        <div class="cuboid__face cuboid__face--back"></div>
+        <div class="cuboid__face cuboid__face--left"></div>
+        <div class="cuboid__face cuboid__face--right"></div>
+        <div class="cuboid__face cuboid__face--top"></div>
+      </div>
+    </div>
+    
+
+    
+ 
+  
+    <div class="books-container">
+      <div class="book">Book 1</div>
+      <div class="book">Book 2</div>
+      <div class="book">Book 3</div>
+      <div class="book">Book 4</div>
+    </div>
+  
+    <div class="floor-thickness"></div>
+
+</div>
+
+{% endblock %}

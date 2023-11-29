@@ -44,10 +44,19 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     bio = models.TextField()
+    image = models.ImageField(upload_to='profile_images/', default='default.png')
     def __str__(self):
       return self.name
 
 from django.db.models import Avg
+
+
+class Category(models.Model):
+    name_en = models.CharField(max_length=255, primary_key=True,default="") 
+    name_jp = models.CharField(max_length=255,default="")
+
+    def __str__(self):
+        return self.name_en
 
 class Book(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -63,6 +72,8 @@ class Book(models.Model):
     # 本の評価の平均
     average_rating = models.FloatField(default=0.0, blank=True)
     review_count = models.IntegerField(default=0, blank=True)
+
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,related_name="books")
     
     def __str__(self):
         return self.title
@@ -87,21 +98,17 @@ class Review(models.Model):
         default=1,
     )
 
+    class Meta:
+        unique_together = ('user', 'book')
+
     def __str__(self):
         return "「" + self.book.title +"」："+ self.content
-    # ... その他のフィールド ...
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         with transaction.atomic():
             self.book.update_ratings()
 
-
-class Category(models.Model):
-    name = models.CharField(max_length=30, unique=True)
-
-    def __str__(self):
-        return self.name
 
 
 # TODO 投票機能

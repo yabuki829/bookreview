@@ -10,7 +10,7 @@ def index(request):
   reviews = Review.objects.all().order_by('-created_at')
 
 
-  paginator = Paginator(reviews, 20)
+  paginator = Paginator(reviews, 12)
   page_number = request.GET.get('page', 1)
     #　選択ページの両側には3コ表示する
   onEachSide = 3
@@ -26,8 +26,8 @@ def index(request):
   page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
 
   context = {
-            'reviews': review_page,  
-            'page_range': page_range,  
+      'reviews': review_page,  
+      'page_range': page_range,  
     }
 
     

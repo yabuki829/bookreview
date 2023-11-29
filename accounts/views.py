@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 from .forms import SignupForm
-
+from api.models import Profile,Review
 
 
 class CustomPasswordResetView(PasswordResetView):
@@ -32,7 +32,8 @@ class SignUpView(CreateView):
         user.is_active = False
         user.save()
         
-        # メール送信のロジック
+        # メールを送信する
+        #TODO 本番環境ではurlを変える
         send_mail(
             'アカウントの確認',
             f'認証URL: http://127.0.0.1:8000/accounts/activate/{user.activation_token}/',
@@ -47,22 +48,38 @@ def activate(request, token):
         user = User.objects.get(activation_token=token)
         user.is_active = True
         user.save()
+        # profileを作成する
+        profile = Profile.objects.create(user=user,name="No Name")
+        profile.save()
         return HttpResponse("アカウントが認証されました！")
     except User.DoesNotExist:
         return HttpResponse("無効なトークンです。")
 
 
 
-class MyPage(View):
-        # 自分の読んだ本の一覧を表示する
+
+
+
+
+class MyPageView(View):
+        # 自分の読んだ本の一覧を表示する -> レビューをつけた本
         # 名前の変更
         # 自分が投稿したPollを表示する
         # ログアウト
         # アカウントの削除　
         
     def get(self,request):
+        profile = Profile.objects.get(user=request.user)
 
-        pass
+        # ユーザーのレビュー一覧を取得
+        reviews = Review.objects.filter(user=profile).select_related('book')
+
+        context = {
+            'profile': profile,
+            'reviews': reviews
+        }
+
+        return render(request, 'mypage.html', context)
 
     def post(self,request):
         pass
