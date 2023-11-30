@@ -4,15 +4,21 @@
 {% load rating_stars %}
 
 {% block content %}
+<style>
+  .book-title{
+    text-wrap:balance;
+    word-break: auto-phrase;
+  }
+</style>
 
 {% comment %} <div class="container mx-auto"> {% endcomment %}
-  <div class="md:w-2/3 mx-4 md:mx-auto flex-grow bg-white p-10">
+  <div class="md:w-2/3 mx-2 md:mx-4 md:mx-auto flex-grow bg-white  p-2 md:p-10">
   <div class="w-full mb-4 flex py-5 ">
     <!-- 本の詳細情報 -->
     <div class="w-full flex  justify-center items-center">
-      <img class="shadow-2xlr mx-4 object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
+      <img class="shadow-2xlr md:mx-4 object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
       <div class="p-2 mx-4">
-        <h2 class="font-bold text-sm md:text-2xl">{{ book.title }}</h2>
+        <h2 class="font-bold text-sm md:text-2xl book-title">{{ book.title }}</h2>
         <p>{{ book.average_rating|stars }} {{book.average_rating|floatformat:1}}</p>
         
         <div class="">

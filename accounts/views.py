@@ -72,11 +72,14 @@ class MyPageView(View):
         profile = Profile.objects.get(user=request.user)
 
         # ユーザーのレビュー一覧を取得
-        reviews = Review.objects.filter(user=profile).select_related('book')
 
+        book_count_per_bookshelf = 4
+        reviews = Review.objects.filter(user=profile).select_related('book')
+        review_chunks = [reviews[i:i + book_count_per_bookshelf] for i in range(0, len(reviews), book_count_per_bookshelf)]
+        print(review_chunks)
         context = {
             'profile': profile,
-            'reviews': reviews
+           'review_chunks': review_chunks
         }
 
         return render(request, 'mypage.html', context)
