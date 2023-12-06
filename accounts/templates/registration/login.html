@@ -28,9 +28,21 @@
       ログイン
     </button>
   </div>
-  <div class="flex justify-center">
-    <a class="text-sm text-blue-400" href="{% url 'password_reset'%}">パスワードを忘れた方</a>
+
+  <div class="flex justify-around">
+    <h1>
+      <span>
+        <a class="text-sm text-blue-400" href="{% url 'password_reset'%}">パスワードを忘れた方</a>
+      </span>
+      or
+      <span> 
+        <a  class="text-sm text-blue-400" href="{% url 'signup'%}">アカウントをお持ちでない方</a>
+      </span>
+    </h1>
+    
+   
   </div>
+  
   
   
 </form>

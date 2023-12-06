@@ -34,6 +34,7 @@ class SignUpView(CreateView):
         
         # メールを送信する
         #TODO 本番環境ではurlを変える
+        print("メールを送信しました。")
         send_mail(
             'アカウントの確認',
             f'認証URL: http://127.0.0.1:8000/accounts/activate/{user.activation_token}/',
@@ -44,6 +45,7 @@ class SignUpView(CreateView):
         return render(self.request, 'registration/signup_done.html')
 
 def activate(request, token):
+    print("activateします")
     try:
         user = User.objects.get(activation_token=token)
         user.is_active = True
@@ -84,5 +86,3 @@ class MyPageView(View):
 
         return render(request, 'mypage.html', context)
 
-    def post(self,request):
-        pass

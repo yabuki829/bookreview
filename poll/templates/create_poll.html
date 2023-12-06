@@ -2,33 +2,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="post">
-  {% csrf_token %}
-  <input type="text" name="question" placeholder="質問タイトル">
-  <div>
-    <input type="text" name="choice" class="form-control" placeholder="選択肢">
-  
-    <input type="button" value="＋" class="add pluralBtn">
-    <input type="button" value="－" class="del pluralBtn">
-  </div>
-  
-  <button type="submit">投票を作成する</button>
-</form>
+<div class="container mx-auto p-4 text-center">
+  <form method="post">
+    {% csrf_token %}
+    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="question" placeholder="質問タイトル">
+    <textarea class="w-full mt-2 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline " name="content" id="" cols="30" rows="10" placeholder="詳細や条件など""></textarea>
+    <div class="pt-5">
+      <div id="choices-container">
+        <div class="choice">
+          <input class="shadow appearance-none border rounded w-3/4 md:w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="choice" placeholder="選択肢">
+          <input type="button" value="削除" class="del pluralBtn">
+        </div>
+      </div>
+      <input type="button" value="選択肢を追加する" class="add pluralBtn">
+     
+    </div>
+    
+    <button class="mt-10  px-4 py-3 bg-blue-400 text-white font-bold " type="submit">投票を作成する</button>
+  </form>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<script type="text/javascript">
-  $(document).on("click", ".add", function() {
-    let target = $(this).parent();
-    let cloned = target.clone(true);
-    cloned.find("input[type='text']").val(""); // 新しいinputの値を空欄にする
-    cloned.insertAfter(target);
-});
 
-  $(document).on("click", ".del", function() {
-      var target = $(this).parent();
-      if (target.parent().children().length > 1) {
-          target.remove();
+<script type="text/javascript">
+  $(document).ready(function() {
+    // 選択肢の追加
+    $(document).on("click", ".add", function() {
+      let newChoice = $("#choices-container .choice:first").clone(true);
+      newChoice.find("input[type='text']").val("");
+      newChoice.appendTo("#choices-container");
+    });
+
+    // 選択肢の削除
+    $(document).on("click", ".del", function() {
+      if ($("#choices-container .choice").length > 1) {
+        $(this).closest(".choice").remove();
       }
+    });
   });
 </script>
 {% endblock %}

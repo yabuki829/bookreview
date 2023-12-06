@@ -113,10 +113,10 @@ class Review(models.Model):
 
 # TODO 投票機能
 class Poll(models.Model):
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_polls')
+    creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='created_polls')
     question = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-
+    content = models.TextField(default="")
     def __str__(self):
         return self.question
 
@@ -137,7 +137,7 @@ class Vote(models.Model):
         unique_together = ('poll', 'user')
 
     def __str__(self):
-        return f"{self.user.username} voted on {self.poll.question}"
+        return f"{self.poll.question}"
 
         
 

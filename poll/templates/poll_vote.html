@@ -3,22 +3,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto mt-8">
-    <h2>{{ poll.question }}</h2>
+
+<div class="container mx-auto p-4 bg-white md:w-2/3">
+    {% if request.user.is_anonymous %}
+        <div class="bg-green-400 text-white text-center font-bold p-2">
+            <h1><span><a class="underline" href="{% url 'login'%}?next=/poll/vote/{{poll.id}}">ログイン</a></span>することで投票が可能になります</h1>
+        </div>
+      
+    {% endif %}
+    <h2 class="text-xl font-bold">{{ poll.question }}</h2>
+    <h2>{{poll.content | linebreaksbr }}</h2>
+    <div class="flex items-center justify-end">
+        <h1>by:</h1>
+        <img src="{{ poll.creator.image.url }}" alt="Profile Image" class="w-8 h-8   object-cover border rounded-full ">
+        <p class="pl-2 text-gray-600">{{ poll.creator }}</p>
+      </div>
+<br>
 
     <form action="{% url 'poll_vote' poll.id %}" method="post">
         {% csrf_token %}
         <div class="mb-4">
             {% for choice in poll.choices.all %}
-            <div>
-                <input type="radio" id="choice{{ choice.id }}" name="choice" value="{{ choice.id }}">
-                <label for="choice{{ choice.id }}">{{ choice.text }}</label>
-            </div>
+            <button class="w-full text-left border bg-white  p-2 my-2 border-gray-300" name="choice" value="{{ choice.id }}" type="submit">{{ choice.text }}</button>
             {% endfor %}
         </div>
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-            投票する
-        </button>
+       
     </form>
 </div>
 {% endblock %}
