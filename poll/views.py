@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from api.models import Poll,Vote,Book,Choice,Profile
+from api.models import Poll,Vote,Book,Choice,Profile,Comment_Poll
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # 一覧表示
@@ -91,13 +91,15 @@ def poll_vote(request, poll_id):
 
 
 # 投票結果
-
 def poll_results(request, poll_id):
     # 投票していなければpoll_voteにリダイレクトする
     # ログインしていなければログインページにリダイレクトする
     # 投票していなければpoll_voteにリダイレクトする
-
     # 自分が選択した選択肢に色をつける
+
+    # コメントを表示する
+
+
 
     poll = get_object_or_404(Poll, pk=poll_id)
 
@@ -111,16 +113,43 @@ def poll_results(request, poll_id):
     if request.user.is_authenticated:
         user_vote = Vote.objects.filter(poll=poll, user=request.user).first()
 
-    results = {choice.text: 0 for choice in poll.choices.all()}  # 全ての選択肢を0で初期化
+    # 各選択肢の投票数をカウント
+    results = {choice.text: 0 for choice in poll.choices.all()}
     for vote in votes:
         choice_text = vote.choice.text
-        results[choice_text] = (results.get(choice_text, 0) + 1) / total_votes * 100
-    
-    results_list = [(key, results[key]) for key in results]
-    
+        results[choice_text] += 1  # 各選択肢の投票数を集計
+
+    # パーセンテージの計算
+    percentage_results = {choice: (count / total_votes * 100) for choice, count in results.items()}
+
+    results_list = [(key, percentage_results[key]) for key in percentage_results]
+
+
+    # コメントの取得
+    comments = Comment_Poll.objects.filter(poll=poll)
+
     return render(request, 'poll_results.html', {
         'poll': poll, 
         'results': results_list,
-        'user_vote': user_vote 
+        'user_vote': user_vote ,
+        'comments': comments,
     })
 
+
+
+# コメントの投稿
+@login_required
+def post_comment(request, poll_id):
+    # poll 
+    # profile 
+    # comment
+
+    print("コメントを投稿するぜ")
+    poll = get_object_or_404(Poll, pk=poll_id)
+    profile = Profile.objects.get(user=request.user)
+    comment = request.POST.get('comment')
+
+    Comment_Poll.objects.create(creator=profile,text=comment,poll=poll)
+
+    print(Comment_Poll.objects.all())
+    return redirect('poll_results',poll_id=poll_id) 

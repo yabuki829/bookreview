@@ -31,10 +31,10 @@
     <hr class="my-2">
     <h1 class="text-xl font-bold">コメント一覧</h1>
     {% if request.user.is_authenticated %}
-  <form action="#" method="POST">
+  <form action="{% url 'post_comment' poll.id %}" method="POST">
     {% csrf_token %}
     
-    <textarea name="content" class="w-full p-2 border " rows="4" required></textarea>
+    <textarea name="comment" class="w-full p-2 border " rows="4" required></textarea>
     <br>
     <div class="flex justify-center">
       <button class="p-2  bg-blue-400 font-bold text-white" type="submit">投稿する</button>
@@ -42,6 +42,12 @@
     
   </form>
   <hr class="my-10">
+  {% for comment in comments %}
+<div class="comment">
+    <p><strong>{{ comment.creator.name }}:</strong> {{ comment.text }}</p>
+</div>
+{% endfor %}
+
   {% endif %}
 </div>
 {% endblock %}

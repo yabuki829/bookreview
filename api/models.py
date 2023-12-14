@@ -111,7 +111,6 @@ class Review(models.Model):
 
 
 
-# TODO 投票機能
 class Poll(models.Model):
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='created_polls')
     question = models.CharField(max_length=255)
@@ -140,6 +139,14 @@ class Vote(models.Model):
         return f"{self.poll.question}"
 
         
+
+class Comment_Poll(models.Model):
+    creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='comment')
+    text = models.TextField(default="")
+    poll = models.ForeignKey(Poll, on_delete=models.CASCADE,related_name='comment_poll')
+    created_at = models.DateTimeField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.text}" 
 
 # TODO 今後実装予定の本のランキング
 
