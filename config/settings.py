@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    
+    "blog",
     "accounts",# django.contrib.authよりも前に配置しないとtempleteが反映されない
     "poll",
     "review",
@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'rest_framework',
-    # 'corsheaders',
     "api",
 
 ]
@@ -178,3 +176,4 @@ EMAIL_HOST_PASSWORD = env('GMAIL_PASSWORD')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

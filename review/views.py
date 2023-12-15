@@ -9,7 +9,7 @@ def index(request):
 
   reviews = Review.objects.all().order_by('-created_at')
 
-
+  # 
   paginator = Paginator(reviews, 12)
   page_number = request.GET.get('page', 1)
     #　選択ページの両側には3コ表示する

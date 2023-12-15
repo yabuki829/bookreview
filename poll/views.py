@@ -5,7 +5,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # 一覧表示
 def poll_list(request):
 
-    polls = Poll.objects.all() 
+    polls = Poll.objects.all().order_by('-created_at')
 
     paginator = Paginator(polls, 20)
     page_number = request.GET.get('page', 1)

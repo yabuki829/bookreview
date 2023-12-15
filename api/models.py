@@ -148,8 +148,30 @@ class Comment_Poll(models.Model):
     def __str__(self):
         return f"{self.text}" 
 
-# TODO 今後実装予定の本のランキング
+class Tag(models.Model):
+    title = models.CharField(max_length=255)  
+    def __str__(self):
+        return f"{self.title}"  
 
+
+
+# 談話室のところで一覧表示する
+# 本に対してのブログというかノート?記事?
+
+
+class Blog(models.Model):
+    creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='blog')
+    title = models.CharField(max_length=255)   
+    content = models.TextField(default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name="blog")
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='blog')
+    
+    def __str__(self):
+        return f"{self.title}" 
+
+
+# TODO 今後実装予定の本のランキング
 # class Ranking(models.Model):
 #     name = models.CharField(max_length=200)
 #     created_at = models.DateTimeField(auto_now_add=True)
