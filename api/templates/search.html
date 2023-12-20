@@ -9,9 +9,9 @@
     <div class="flex flex-wrap -mx-2">
         {% for book in books %}
         <div class="w-full mb-4 mx-2 ">
-          <a href="{% url 'book_detail' book.id %}" class=" block bg-white ">
+          <a href="{% url 'book_detail' book.id %}" class=" block bg-white p-4">
             <div class="flex items-center">
-              <img class=" object-cover" src="{{ book.image.url }}" alt="{{ book.title }}">
+              <img class=" object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
               <div class="p-2">
                 <h2 class="font-bold text-sm md:text-2xl">{{ book.title }}</h2>
                 <p class="text-gray-700 text-base md:font-bold">{{ book.description|truncatechars:100}}</p>

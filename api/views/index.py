@@ -8,10 +8,16 @@ class HomeView(View):
     # 最近のpollを表示する
     end_date = timezone.now()
     # 30にち間の場合
-    start_date = end_date - timedelta(days=1) 
+    start_date = end_date - timedelta(days=7) 
     top_books = get_top_books_by_reviews(start_date, end_date)
+
+
     print(top_books)
-    return render(request, 'home.html')
+
+
+
+
+    return render(request, 'home.html', {'top_books': top_books})
 
 
 from django.db.models import Count
@@ -28,13 +34,5 @@ def get_top_books_by_reviews(start_date, end_date):
     ).order_by('-num_reviews')
 
 
-
-def review_ranking_view(request):
-    end_date = timezone.now()
-    # 30にち間の場合
-    start_date = end_date - timedelta(days=30) 
-    top_books = get_top_books_by_reviews(start_date, end_date)
-    
-    return render(request, 'review_ranking.html', {'top_books': top_books})
 
 
