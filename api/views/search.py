@@ -26,9 +26,19 @@ def parse_partial_date(date_str):
     return None  
 
 
+
+def get_books_from_Google_Books_API(isbn):
+    api_url = 'https://www.googleapis.com/books/v1/volumes'
+    params = {'q': 'isbn:' + isbn}
+    response = requests.get(api_url, params=params)
+
+    return response
+
+
 class SearchView(View):
   def get(self,request):
-    query = request.GET.get('q', '')  # 検索クエリを取得
+    # 検索クエリを取得
+    query = request.GET.get('q', '') 
     # TODO 空白を入れて検索している場合も考えたい
     print("検索:",query)
     if query:
@@ -37,10 +47,8 @@ class SearchView(View):
         books = Book.objects.filter(isbn=query)
         # 本が登録されてない場合GoogleBooksAPIから本情報を取得する
         if not books.exists() and query:
-          print("ローカルにデータがありません。")
-          api_url = 'https://www.googleapis.com/books/v1/volumes'
-          params = {'q': 'isbn:' + query}
-          response = requests.get(api_url, params=params)
+         
+          response = get_books_from_Google_Books_API(query)
 
           if response.status_code == 200:
               print("取得が完了しました")
@@ -81,6 +89,7 @@ class SearchView(View):
                   if image_url:
                       book.image.save(f"{query}.jpg", ContentFile(image_temp.getvalue()), save=True)
                   book.save()
+
                   books = [book] 
    
       else:
@@ -111,3 +120,6 @@ class SearchView(View):
     }
 
     return render(request, 'search.html', context)
+
+
+

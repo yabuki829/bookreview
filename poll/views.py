@@ -62,28 +62,32 @@ def create_poll(request):
 # ログインせずとも選択肢を見れるようにする
 def poll_vote(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
-    print("投票ページ")
-    # 投票していれば投票結果に移動
-    if request.user.is_anonymous:
-        return render(request, 'poll_vote.html', {'poll': poll})
-
-    if Vote.objects.filter(poll=poll, user=request.user).exists():
-        return redirect('poll_results', poll_id=poll.id)
-
 
     if request.method == 'POST':
-        # フォームから送信された選択肢のIDを取得
-        chosen_choice_id = request.POST.get('choice')
-        print(f"選択された選択肢のID: {chosen_choice_id}")
 
-        # # TODO 匿名でも投票できるようにしたい
-        # 選択された選択肢のIDが空でないことを確認
-        if chosen_choice_id:
-            chosen_choice = Choice.objects.get(id=chosen_choice_id)
-            print(f"選択された選択肢: {chosen_choice.text}")
-            Vote.objects.create(poll=poll, choice=chosen_choice, user=request.user)
-            
+        
+        print("投票ページ")
+        # 投票していれば投票結果に移動
+        if request.user.is_anonymous:
+            return render(request, 'poll_vote.html', {'poll': poll})
+
+        if Vote.objects.filter(poll=poll, user=request.user).exists():
             return redirect('poll_results', poll_id=poll.id)
+
+
+        if request.method == 'POST':
+            # フォームから送信された選択肢のIDを取得
+            chosen_choice_id = request.POST.get('choice')
+            print(f"選択された選択肢のID: {chosen_choice_id}")
+
+            # # TODO 匿名でも投票できるようにしたい
+            # 選択された選択肢のIDが空でないことを確認
+            if chosen_choice_id:
+                chosen_choice = Choice.objects.get(id=chosen_choice_id)
+                print(f"選択された選択肢: {chosen_choice.text}")
+                Vote.objects.create(poll=poll, choice=chosen_choice, user=request.user)
+                
+                return redirect('poll_results', poll_id=poll.id)
 
 
 

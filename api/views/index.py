@@ -13,10 +13,6 @@ class HomeView(View):
 
 
     print(top_books)
-
-
-
-
     return render(request, 'home.html', {'top_books': top_books})
 
 

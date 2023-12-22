@@ -25,5 +25,3 @@ class DetailsView(View):
     }
     return render(request, "details.html", context)
 
-  def post(self,request,pk):
-    pass

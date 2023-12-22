@@ -42,7 +42,7 @@
 
   
   {% if request.user.is_authenticated and not user_has_reviewed %}
-  <h1>「{{book.title}}」 のレビューを書く</h1>
+  <h1>「{{book.title}}」 の感想を書く</h1>
   <form action="{% url 'post_review' book.id %}" method="POST">
     {% csrf_token %}
     <div class="rating ">

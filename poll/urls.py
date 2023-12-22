@@ -6,6 +6,7 @@ urlpatterns = [
   path('create/', create_poll, name='create_poll'),
   path('results/<int:poll_id>/',poll_results, name='poll_results'),
   path('comment/<int:poll_id>/',post_comment, name='post_comment'),
+  
 
 ]
 
