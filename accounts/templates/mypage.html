@@ -29,39 +29,40 @@
   
   {% comment %} https://incodethismeans.com/building-a-book-shelf-with-html-and-css {% endcomment %}
 
-
-  <h3 class="text-3xl font-bold ml-2 r ">読んだ本</h3>
-   <div class="floor-thickness">   </div>
-  {% for review_chunk in review_chunks %}
-     
-   <section class="bookshelf">
-    <div class="container-book">
-      <div class="cuboid">
-        <div class="cuboid__face cuboid__face--bottom"></div>
-        <div class="cuboid__face cuboid__face--front"></div>
-        <div class="cuboid__face cuboid__face--back"></div>
-        <div class="cuboid__face cuboid__face--left"></div>
-        <div class="cuboid__face cuboid__face--right"></div>
-        <div class="cuboid__face cuboid__face--top"></div>
+  <h3 class="text-xl md:text-3xl  font-bold text-white pl-2 bg-gray-700">次に読む</h3>
+  <div class="bg-gray-800 p-4">
+    <div class="bg-gray-700 p-2 mx-auto px-4">
+      <div class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-4 mx-auto">
+        {% for review in reviews %}
+        <div class="book flex flex-col overflow-hidden shadow-xl transform hover:scale-105 duration-300">
+          <a href="{% url 'book_detail' review.book.id %}">
+            <img class="w-full h-40 object-cover " src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
+          </a>
+        </div>
+        {% endfor %}
       </div>
     </div>
-    <div class="books-container flex flex-wrap">
-      {% for review in review_chunk %}
-
-      <div class="book overflow-hidden shadow-xl transform hover:scale-105 duration-300">
-        <a href="{% url 'book_detail' review.book.id %}">
-          <img class="w-full h-40 object-cover" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
-        </a>
-      </div>
-    {% empty %}
-      <p class="text-center">読んだ本はまだありません。</p>
-    {% endfor %}
-    </div>
-    <div class="floor-thickness"></div>
-  </section>
-  {% endfor %}
   </div>
-  <h3 class="text-3xl font-bold ml-2">次読む</h3>
+  <h3 class="text-xl md:text-3xl  font-bold text-white pl-2 bg-gray-700">読んだ本</h3>
+   
+  <div class="bg-gray-800 p-4">
+    <div class="bg-gray-700 p-2 mx-auto px-4">
+      <div class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-4 mx-auto">
+        {% for review in reviews %}
+        <div class="book flex flex-col overflow-hidden shadow-xl transform hover:scale-105 duration-300">
+          <a href="{% url 'book_detail' review.book.id %}">
+            <img class="w-full h-40 object-cover" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  
+
+  
+
+ 
 </div>
 
 {% endblock %}

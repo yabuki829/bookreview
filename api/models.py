@@ -2,7 +2,13 @@ from django.db import models
 # from django.contrib.auth.models import User
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager,PermissionsMixin
 import uuid
-import datetime
+from django.utils.crypto import get_random_string
+
+
+def create_id():
+    return get_random_string(22)
+
+
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -160,15 +166,32 @@ class Tag(models.Model):
 
 
 class Blog(models.Model):
+    id = models.CharField(default=create_id, primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='blog')
     title = models.CharField(max_length=255)   
     content = models.TextField(default="")
-    created_at = models.DateTimeField(auto_now_add=True)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name="blog")
-    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='blog')
+    created_at = models.DateField(auto_now_add=True)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name="blog",blank=True,null=True)
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='blog',blank=True,null=True)
     
     def __str__(self):
         return f"{self.title}" 
+
+
+class BlogComment(models.Model):
+    id = models.CharField(default=create_id, primary_key=True, max_length=22, editable=False)
+    creator = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=255)   
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE,related_name="blog_comment",blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.comment}" 
+
+
+
+
+
 
 
 # TODO 今後実装予定の本のランキング

@@ -24,6 +24,7 @@
         <div class="">
           <p class="text-gray-700 text-base ">著者: <span class="font-bold">{{book.author}}</span></p>
           <p class="text-gray-700 text-base ">出版日: {{book.published_at}}</p>
+         
         </div>
         
         
@@ -32,9 +33,16 @@
     </div>
     
   </div>
-  <div class='flex justify-center'>
-    <a class='p-2 bg-orange-400 text-white rounded font-bold' href="{{ book.isbn|amazon_url }}" target="_blank" rel="noopener noreferrer">Amazonでの評価を見る</a>
+  <div class='flex justify-center items-center'>
+    <a class='p-2 bg-orange-400 text-white rounded font-bold mx-2' href="{{ book.isbn|amazon_url }}" target="_blank" rel="noopener noreferrer">Amazonでの評価を見る</a>
+    <form method="post">
+      {% csrf_token %}
+      <button class="bg-blue-400 text-white font-bold p-2 mx-2 rounded">ツギヨムに追加する</button>
+      
+    </form>
   </div>
+  
+
   <hr class="my-10">
   <p class="text-gray-700 text-base md:font-bold">{{ book.description}}</p>
   <hr class="my-10">

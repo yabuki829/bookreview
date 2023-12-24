@@ -1,53 +1,27 @@
-
-
-{% extends 'base.html' %}
-
-{% block content %}
-<div class="container mx-auto   bg-white p-10  md:w-2/3">
-
-    <h2 class="text-2xl font-bold">{{ poll.question }}</h2>
-    <br>
+{% extends 'base.html' %} {% block content %}
+<div>
+  <div class="bg-white w-4/5 md:w-2/3  mx-auto  p-8  my-16 rounded-3xl ">
+    <h2 class="text-2xl font-bold">{{ poll.question }}</h2> <br>
     <h2>{{ poll.content|linebreaksbr }}</h2>
     <div class="flex items-center justify-end">
-        <h1>by:</h1>
-        <img src="{{ poll.creator.image.url }}" alt="Profile Image" class="w-8 h-8   object-cover border rounded-full ">
-        <p class="pl-2 text-gray-600">{{ poll.creator }}</p>
-      </div>
-      <br>
-    <hr>
-    <br>
-    <div>
-        {% for choice, percentage in results %}
-        <div class="relative flex justify-between border my-2 items-center p-3" >
-               
-            <div class=" absolute inset-0 opacity-50 {% if user_vote.choice.text == choice %}bg-green-400 border border-green-700{% else %}bg-gray-300 {% endif %}" style="width: {{ percentage }}%;"></div>
-            <h1 class="pl-2 absolute left-0 ">{{ choice }}</h1>
-            <div class="text-right w-full pl-2">{{ percentage|floatformat:1 }}%</div>
-        </div>
-       
-        {% endfor %}
-    </div>
-    <br>
-    <hr class="my-2">
-    <h1 class="text-xl font-bold">コメント一覧</h1>
-    {% if request.user.is_authenticated %}
-  <form action="{% url 'post_comment' poll.id %}" method="POST">
-    {% csrf_token %}
-    
-    <textarea name="comment" class="w-full p-2 border " rows="4" required></textarea>
-    <br>
-    <div class="flex justify-center">
-      <button class="p-2  bg-blue-400 font-bold text-white" type="submit">投稿する</button>
-    </div>
-    
-  </form>
-  <hr class="my-10">
-  {% for comment in comments %}
-<div class="comment">
-    <p><strong>{{ comment.creator.name }}:</strong> {{ comment.text }}</p>
-</div>
-{% endfor %}
-
-  {% endif %}
-</div>
-{% endblock %}
+      <h1>by:</h1> <img src="{{ poll.creator.image.url }}" alt="Profile Image" class="w-8 h-8   object-cover border rounded-full ">
+      <p class="pl-2 text-gray-600">{{ poll.creator }}</p>
+    </div> <br>
+    <hr> <br>
+    <div> {% for choice, percentage in results %}
+      <div class="relative flex justify-between border my-2 items-center p-3">
+        <div class=" absolute inset-0 opacity-50 {% if user_vote.choice.text == choice %}bg-green-400 border border-green-700{% else %}bg-gray-300 {% endif %}" style="width: {{ percentage }}%;"></div>
+        <h1 class="pl-2 absolute left-0 ">{{ choice }}</h1>
+        <div class="text-right w-full pl-2">{{ percentage|floatformat:1 }}%</div>
+      </div> {% endfor %} </div>
+  </div>
+  <div class="bg-white w-4/5 md:w-2/3  mx-auto  p-8  my-16 rounded-3xl ">
+    <h1 class="text-xl font-bold">コメント一覧</h1> {% if request.user.is_authenticated %}
+    <form action="{% url 'post_comment' poll.id %}" method="POST"> {% csrf_token %} <textarea name="comment" class="w-full p-2 border " rows="4" required></textarea> <br>
+      <div class="flex justify-center"> <button class="p-2  bg-blue-400 font-bold text-white" type="submit">投稿する</button> </div>
+    </form>
+    <hr class="my-10"> {% for comment in comments %}
+    <div class="comment">
+      <p><strong>{{ comment.creator.name }}:</strong> {{ comment.text }}</p>
+    </div> {% endfor %} {% endif %} </div>
+</div> {% endblock %}
