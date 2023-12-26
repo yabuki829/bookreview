@@ -73,14 +73,15 @@ class Book(models.Model):
     author = models.CharField(max_length=255,default="None")
     description = models.TextField(default="") 
     published_at = models.DateField()
-    # image = models.ImageField(upload_to='books/images/')
+
     image = models.ImageField(upload_to='books/images/')
     # 本の評価の平均
     average_rating = models.FloatField(default=0.0, blank=True)
     review_count = models.IntegerField(default=0, blank=True)
 
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True,related_name="books")
-    
+    # 次に読むに入れている人
+    readers = models.ManyToManyField(User, through='UserBook', related_name='next_books')
     def __str__(self):
         return self.title
     # 本のレビューを追加したら再計算させる
@@ -89,6 +90,21 @@ class Book(models.Model):
         self.average_rating = average if average is not None else 0.0
         self.review_count = self.reviews.count()
         self.save()
+
+
+# 次に読む本 next_book_to_read
+class UserBook(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    added_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'book')
+
+    def __str__(self):
+        return f"{self.book.title}"
+
+
 
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import transaction

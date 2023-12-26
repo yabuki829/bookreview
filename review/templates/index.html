@@ -7,7 +7,7 @@
     {% for review in reviews %}
     <div class="w-full md:w-1/3 px-2 mb-4">
      
-      <a href="{% url 'book_detail' review.book.id %}#reviews" class="hover:scale-105 block bg-white rounded shadow-md overflow-hidden hover:shadow-lg transition-shadow flex p-5">
+      <a href="{% url 'book_detail' review.book.id %}" class="hover:scale-105 block bg-white rounded shadow-md overflow-hidden hover:shadow-lg transition-shadow flex p-5">
         <img class="md:w-1/3 shadow-2xl object-cover border-2" src="{{ review.book.image.url }}" alt="{{ review.book.title }}" style="height: 200px; width: auto;">
         <div class="p-3 md:w-2/3 flex flex-col items-center">
           <h2 class="font-bold text-lg mb-2">{{ review.book.title }}</h2>

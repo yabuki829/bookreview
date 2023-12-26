@@ -35,9 +35,18 @@
   </div>
   <div class='flex justify-center items-center'>
     <a class='p-2 bg-orange-400 text-white rounded font-bold mx-2' href="{{ book.isbn|amazon_url }}" target="_blank" rel="noopener noreferrer">Amazonでの評価を見る</a>
+
+
     <form method="post">
       {% csrf_token %}
+      
+      {% if exists_in_next_read %}
+        <button class="bg-gray-400 text-white font-bold p-2 mx-2 rounded">ツギヨムから削除する</button>
+      {% else %}
       <button class="bg-blue-400 text-white font-bold p-2 mx-2 rounded">ツギヨムに追加する</button>
+      {% endif %}
+        
+      
       
     </form>
   </div>
