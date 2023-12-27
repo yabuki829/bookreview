@@ -80,7 +80,7 @@ def poll_vote(request, poll_id):
             chosen_choice_id = request.POST.get('choice')
             print(f"選択された選択肢のID: {chosen_choice_id}")
 
-            # # TODO 匿名でも投票できるようにしたい
+            # # TODO 匿名でも投票できるようにするか考える
             # 選択された選択肢のIDが空でないことを確認
             if chosen_choice_id:
                 chosen_choice = Choice.objects.get(id=chosen_choice_id)

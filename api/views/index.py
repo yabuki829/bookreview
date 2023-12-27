@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 
-from ..models import Profile,Blog
+from ..models import Profile,Blog,Tag
 
 from blog.views import BlogClass
 class HomeView(View):
@@ -13,11 +13,7 @@ class HomeView(View):
 
     top_books_30 = get_top_books_by_reviews(100)
 
-   
-
     news_blogs = get_news_blog()
-
-
     blogs = get_blogs(12)
 
 
@@ -67,7 +63,8 @@ def get_news_blog():
 
 
 def get_blogs(count:int):
-    blogs = Blog.objects.all().order_by('-created_at')[:count]
+    tag = Tag.objects.get(title="お知らせ")
+    blogs = Blog.objects.exclude(tag=tag).order_by('-created_at')[:count]
 
     return blogs
 

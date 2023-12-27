@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # レビュー画面のトップページ
 def index(request):
 
-  reviews = Review.objects.all().order_by('-created_at')
+  reviews = Review.objects.select_related('user', 'book').order_by('-created_at')
 
   # 
   paginator = Paginator(reviews, 12)

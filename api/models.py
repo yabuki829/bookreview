@@ -58,7 +58,7 @@ from django.db.models import Avg
 
 
 class Category(models.Model):
-    name_en = models.CharField(max_length=255, primary_key=True,default="") 
+    name_en = models.CharField(max_length=255, primary_key=True,default="None Category") 
     name_jp = models.CharField(max_length=255,default="")
 
     def __str__(self):

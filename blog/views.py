@@ -35,6 +35,38 @@ class DetailsBlogView(View):
     print("コメントします")
     return redirect('details_blog', pk=pk)  
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+# ブログの一覧表示
+class BlogListView(View):
+
+  def get(self,request):
+    blogs = Blog.objects.all()
+    per_page = 12
+
+    paginator = Paginator(blogs, per_page)
+    page_number = request.GET.get('page', 1)
+      #　選択ページの両側には3コ表示する
+    onEachSide = 3
+      #　左右両端には2コ表示する
+    onEnds = 2 
+    try:
+        blog_page = paginator.page(page_number)
+    except PageNotAnInteger:
+        blog_page = paginator.page(1)
+    except EmptyPage:
+        blog_page = paginator.page(paginator.num_pages)
+
+    page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
+
+    context = {
+        'blog_page': blog_page,  
+        'page_range': page_range,  
+    }
+
+    
+    return render(request, 'blog_list.html', context)
+  
 
 
 
@@ -53,3 +85,5 @@ class BlogClass():
 
     tag, created = Tag.objects.get_or_create(title=tag_title)
     return tag
+
+

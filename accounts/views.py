@@ -75,7 +75,7 @@ class MyPageView(View):
 
         # ユーザーのレビュー一覧を取得
 
-        reviews = Review.objects.filter(user=profile).select_related('book')
+        reviews = Review.objects.filter(user=profile).select_related('user', 'book')
 
         # 次に読むに登録している本を取得
         next_books = UserBook.objects.filter(user=self.request.user).select_related("book")

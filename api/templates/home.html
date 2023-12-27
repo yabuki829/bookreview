@@ -29,13 +29,13 @@
            
             <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mx-2">
               {% for book in top_books_7 %}
-                <div class="image-container relative">
+                <div class="image-container relative flex items-center">
                   <!-- 画像をリンクにする -->
                   <a href="{% url 'book_detail' book.id %}">
                     <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
                   </a>
                   <div class="text-overlay absolute top-1 left-0">
-                    <h1 class="rounded-r bg-green-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
+                    <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
                   </div>
                 </div>
               {% endfor %}
@@ -58,13 +58,13 @@
            
             <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mx-2">
               {% for book in top_books_30 %}
-                <div class="image-container relative">
+                <div class="image-container relative flex items-center ">
                   <!-- 画像をリンクにする -->
-                  <a href="{% url 'book_detail' book.id %}">
+                  <a   href="{% url 'book_detail' book.id %}">
                     <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
                   </a>
                   <div class="text-overlay absolute top-1 left-0">
-                    <h1 class="rounded-r bg-green-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
+                    <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
                   </div>
                 </div>
               {% endfor %}
@@ -107,11 +107,10 @@
       </div>
       <div class="border-b-2 w-16 border-black"></div>
     {% endfor %}
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9515239279115600"crossorigin="anonymous"></script>
     <!-- ツギヨムホーム画面広告する -->
     
 
-</div>
+  </div>
 
 
 

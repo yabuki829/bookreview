@@ -51,7 +51,7 @@
         {% for review in reviews %}
         <div class="book flex flex-col overflow-hidden shadow-xl transform hover:scale-105 duration-300">
           <a href="{% url 'book_detail' review.book.id %}">
-            <img class="w-full h-40 object-cover" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
+            <img class="object-cover border-1" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
           </a>
         </div>
         {% endfor %}
