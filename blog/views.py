@@ -37,44 +37,131 @@ class DetailsBlogView(View):
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
+from django.db.models import Count
+
 # ブログの一覧表示
 class BlogListView(View):
 
   def get(self,request):
-    blogs = Blog.objects.all()
-    per_page = 12
 
-    paginator = Paginator(blogs, per_page)
-    page_number = request.GET.get('page', 1)
-      #　選択ページの両側には3コ表示する
-    onEachSide = 3
-      #　左右両端には2コ表示する
-    onEnds = 2 
-    try:
-        blog_page = paginator.page(page_number)
-    except PageNotAnInteger:
-        blog_page = paginator.page(1)
-    except EmptyPage:
-        blog_page = paginator.page(paginator.num_pages)
+    
+    tag_id = request.GET.get('tag_id', '') 
+    print("tag:",tag_id)
+    if tag_id == "":
+      blogs = Blog.objects.all()
+      per_page = 12
 
-    page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
+      paginator = Paginator(blogs, per_page)
+      page_number = request.GET.get('page', 1)
+        #　選択ページの両側には3コ表示する
+      onEachSide = 3
+        #　左右両端には2コ表示する
+      onEnds = 2 
+      try:
+          blog_page = paginator.page(page_number)
+      except PageNotAnInteger:
+          blog_page = paginator.page(1)
+      except EmptyPage:
+          blog_page = paginator.page(paginator.num_pages)
 
+      page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
+    else:
+      
+      blogs = Blog.objects.filter(tag=tag_id)
+      per_page = 12
+
+      paginator = Paginator(blogs, per_page)
+      page_number = request.GET.get('page', 1)
+        #　選択ページの両側には3コ表示する
+      onEachSide = 3
+        #　左右両端には2コ表示する
+      onEnds = 2 
+      try:
+          blog_page = paginator.page(page_number)
+      except PageNotAnInteger:
+          blog_page = paginator.page(1)
+      except EmptyPage:
+          blog_page = paginator.page(paginator.num_pages)
+
+      page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
+
+    # タグの数が増えたらこれを使う
+    # tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
+
+    tag_list = Tag.objects.all() 
+    print(tag_list)
     context = {
         'blog_page': blog_page,  
         'page_range': page_range,  
+        "tag_list":tag_list
     }
 
     
     return render(request, 'blog_list.html', context)
   
 
+class Show_Blog_Tag(View):
+  def get(self,request,tag):
+    print("呼ばれてますか？")
 
+    tag_obj = Tag.objects.filter(title=tag).first()
+
+
+    blogs = Blog.objects.filter(tag=tag_obj)
+    per_page = 12
+
+    paginator = Paginator(blogs, per_page)
+    page_number = request.GET.get('page', 1)
+        #　選択ページの両側には3コ表示する
+    onEachSide = 3
+        #　左右両端には2コ表示する
+    onEnds = 2 
+    try:
+          blog_page = paginator.page(page_number)
+    except PageNotAnInteger:
+          blog_page = paginator.page(1)
+    except EmptyPage:
+          blog_page = paginator.page(paginator.num_pages)
+
+    page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
+
+    # タグの数が増えたらこれを使う
+    tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
+
+    
+    context = {
+        'blog_page': blog_page,  
+        'page_range': page_range,  
+        "tag":tag,
+        "tag_list":tag_list
+
+    }
+    
+
+    return render(request, 'blog_list.html', context)
+ 
+  
+
+class ShowTagsView(View):
+  def get(self,request):
+
+    tags = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')
+
+    context = {
+        'tags': tags,  
+    }
+    return render(request, 'show_all_tags.html', context)
+ 
+  pass
 
 class BlogClass():
   def post_blog(self,creator,title,content,tag):
     blog = Blog.objects.create(creator=creator,title=title,content=content,tag=self.get_tag(tag))
     return blog
-    
+  
+
+ 
 
   def delete_blog(self,creator,blog_id):
     pass

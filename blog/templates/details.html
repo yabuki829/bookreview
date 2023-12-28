@@ -19,7 +19,7 @@
       </a>
     </div>
     <br>
-   <h1 class="bg-gray-300  inline px-2 py-1 rounded-md">{{blog.tag}}</h1>
+   <a href="{% url 'show_blog_tag' blog.tag.title %}" class="bg-green-500 px-2 py-1 rounded-full text-white">{{blog.tag}}</a>
   
   </div>
   

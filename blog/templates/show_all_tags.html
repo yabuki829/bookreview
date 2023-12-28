@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+  <div class="bg-white w-11/12 md:w-2/3  mx-auto  p-8  my-8 md:my-16 rounded-3xl ">
+  
+  <div class="flex items-center">
+    <div class="rounded-md inline-block bg-blue-400 w-4 h-4 mx-2"></div> 
+    <h1 class="text-xl font-bold">タグ一覧</h1>
+  </div>
+  <hr>
+  <br>
+  {% for tag in tags %}
+    <a class=" bg-green-500 px-2 py-1 rounded-full text-white " href="{url 'show_blog_tag' tag.title}">{{tag.title}}</a>
+  {% endfor %}
+    
+  </div>
+</div>
+
+
+{% endblock %}
