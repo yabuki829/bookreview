@@ -17,8 +17,11 @@
     <!-- 本の詳細情報 -->
     <div class="w-full flex  justify-center items-center">
 
-      <img class="shadow-2xlr md:mx-4 object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-      
+      {% if book.image %}
+        <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
+      {% else %}
+        <div class="inlineb-block font-bold h-full flex items-center text-center">{{book.title}}</div>
+      {% endif %}
       <div class="p-2 mx-4">
         <h2 class="font-bold text-sm md:text-2xl book-title">{{ book.title }}</h2>
         <p>{{ book.average_rating|stars }} {{book.average_rating|floatformat:1}}</p>

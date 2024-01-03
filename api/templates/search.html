@@ -11,7 +11,12 @@
         <div class="w-full mb-4 mx-2 ">
           <a href="{% url 'book_detail' book.id %}" class=" block bg-white p-4">
             <div class="flex items-center">
-              <img class=" object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
+              {% if book.image %}
+                <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
+              {% else %}
+
+                  <div class="inlineb-block border-2 ">画像がありません</div>
+              {% endif %}
               <div class="p-2">
                 <h2 class="font-bold text-sm md:text-2xl">{{ book.title }}</h2>
                 <p class="text-gray-700 text-base md:font-bold">{{ book.description|truncatechars:100}}</p>

@@ -18,6 +18,7 @@ class HomeView(View):
 
 
     return render(request, 'home.html', {
+        "latest_books": get_latest_books(),
         "top_books_7": top_books_7,
         "top_books_30":top_books_30,
         "news_blogs":news_blogs,
@@ -35,7 +36,7 @@ from datetime import timedelta
 
 
 def get_top_books_by_reviews(days:int):
-    end_date = timezone.now()
+    end_date = timezone.now() 
     start_date = end_date - timedelta(days=days) 
     # 期間中のレビューをつけられた本のランキングを返す
     # annotateでレビューの数を数えてソートする
@@ -68,3 +69,15 @@ def get_blogs(count:int):
 
     return blogs
 
+
+
+# データベースから最新の本を取得する 
+def get_latest_books():
+    # 発売日が30日後のやつまで表示する
+    end_date = timezone.now() + timedelta(days=30) 
+    start_date = end_date - timedelta(days=30) 
+    books = Book.objects.filter(published_at__range=(start_date,end_date))
+    return books
+
+
+    

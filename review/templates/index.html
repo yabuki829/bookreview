@@ -2,13 +2,18 @@
 {% block content %}
 {% load rating_stars %}
 <div class="container mx-auto p-4 text-center">
+  
   <h1 class="text-2xl font-bold mb-4">最新のレビュー</h1>
   <div class="flex flex-wrap  -mx-2">
     {% for review in reviews %}
     <div class="w-full md:w-1/2 px-2 mb-4">
      
       <a href="{% url 'book_detail' review.book.id %}" class="hover:scale-105 block bg-white rounded shadow-md overflow-hidden hover:shadow-lg transition-shadow flex p-3 items-center">
-        <img class="object-cover border-2" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
+        {% if review.book.image %}
+          <img class="object-cover border-2" src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
+        {% else %}
+            <div class="inlineb-block font-bold h-full w-full">{{review.book.title}}</div>
+        {% endif %}
         <div class="p-3 md:w-2/3 flex flex-col items-center  mx-auto">
           
           <h2 class="font-bold text-lg mb-2 text-center">{{ review.book.title }}</h2>
@@ -26,7 +31,7 @@
   </div>
 
 
-  <nav class="flex justify-center >
+  <nav class="flex justify-center" >
     <ul class="inline-flex -space-x-px text-sm">
       {% if reviews.has_previous %}
       <li>

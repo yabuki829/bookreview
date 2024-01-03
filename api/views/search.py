@@ -37,13 +37,16 @@ def get_books_from_Google_Books_API(isbn):
 
 class SearchView(View):
   def get(self,request):
+    print("isbn",format_isbn("9784286245720"))
     # 検索クエリを取得
     query = request.GET.get('q', '') 
-    # TODO 空白を入れて検索している場合も考えたい
+    # TODO 空白を入れて検索している場合もm今後考えたい
+
     print("検索:",query)
     if query:
       if re.match(r'^(97(8|9))?\d{9}(\d|X)$', query.replace('-', '')):
         print("isbnでの検索です")
+        query = query.replace('-', '')
         books = Book.objects.filter(isbn=query)
         # 本が登録されてない場合GoogleBooksAPIから本情報を取得する
         if not books.exists() and query:
@@ -54,16 +57,24 @@ class SearchView(View):
               print("取得が完了しました")
               result = response.json()
               items = result.get('items', [])
+
               if items:
                   book_info = items[0]['volumeInfo']
 
                   # 画像処理
+
+                  # 画像がない場合エラーになる
+
+                  print(book_info)
                   image_url = book_info.get('imageLinks', {}).get('thumbnail')
+                  print("画像だよ",image_url)
                   if image_url:
                       image_response = requests.get(image_url)
                       if image_response.status_code == 200:
                           # BytesIOを使用して一時ファイルを作成する
                           image_temp = BytesIO(image_response.content)
+                  else:
+                    pass
 
                   # 出版日処理
                   
@@ -76,7 +87,7 @@ class SearchView(View):
                   category, created = Category.objects.get_or_create(name_en=category_name_en)
                 
                   # ローカルに本の情報を保存する
-                  
+                  print("タイトル:",book_info.get('title', ''))
                   book = Book(
                       isbn=query,
                       title=book_info.get('title', ''),
@@ -86,11 +97,14 @@ class SearchView(View):
                       published_at=published_at,
                       category=category
                   )
+                  
                   if image_url:
-                      book.image.save(f"{query}.jpg", ContentFile(image_temp.getvalue()), save=True)
+                      book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
                   book.save()
 
                   books = [book] 
+              else:
+                print("本の情報がありませんでした。")
    
       else:
         books = Book.objects.filter(title__icontains=query)
@@ -121,5 +135,19 @@ class SearchView(View):
 
     return render(request, 'search.html', context)
 
+
+
+
+def format_isbn(isbn):
+    """
+    isbnをXXXX-X-XXXX-XXXX-X.の形に変換する
+    """
+    isbn = str(isbn)
+
+    parts = [isbn[:3], isbn[3:4], isbn[4:8], isbn[8:12], isbn[12:]]
+    
+    formatted_isbn = '-'.join(parts)
+
+    return formatted_isbn
 
 
