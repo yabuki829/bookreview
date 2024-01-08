@@ -27,6 +27,8 @@ urlpatterns = [
     path('poll/', include('poll.urls')),
     path('review/', include('review.urls')),
     path('note/', include('blog.urls')),
+    path('ranking/', include('ranking.urls')),
+
 ]
 
 if settings.DEBUG:

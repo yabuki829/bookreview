@@ -18,7 +18,7 @@ class HomeView(View):
 
 
     return render(request, 'home.html', {
-        "latest_books": get_latest_books(),
+        "latest_books": get_latest_books(30),
         "top_books_7": top_books_7,
         "top_books_30":top_books_30,
         "news_blogs":news_blogs,
@@ -72,10 +72,10 @@ def get_blogs(count:int):
 
 
 # データベースから最新の本を取得する 
-def get_latest_books():
+def get_latest_books(day):
     # 発売日が30日後のやつまで表示する
-    end_date = timezone.now() + timedelta(days=30) 
-    start_date = end_date - timedelta(days=30) 
+    end_date = timezone.now() + timedelta(days=day) 
+    start_date = end_date - timedelta(days=120) 
     books = Book.objects.filter(published_at__range=(start_date,end_date))
     return books
 

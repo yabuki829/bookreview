@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "accounts",# django.contrib.authよりも前に配置しないとtempleteが反映されない
     "poll",
     "review",
+    "ranking",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
