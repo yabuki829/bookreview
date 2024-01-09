@@ -87,9 +87,8 @@ class BlogListView(View):
       page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
 
     # タグの数が増えたらこれを使う
-    # tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
+    tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
 
-    tag_list = Tag.objects.all() 
     print(tag_list)
     context = {
         'blog_page': blog_page,  

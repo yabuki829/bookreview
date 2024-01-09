@@ -16,6 +16,8 @@ class HomeView(View):
     news_blogs = get_news_blog()
     blogs = get_blogs(12)
 
+    tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
+
 
     return render(request, 'home.html', {
         "latest_books": get_latest_books(30),
@@ -23,6 +25,7 @@ class HomeView(View):
         "top_books_30":top_books_30,
         "news_blogs":news_blogs,
         "blogs":blogs,
+         "tag_list":tag_list,
         }
     )
 
@@ -73,10 +76,9 @@ def get_blogs(count:int):
 
 # データベースから最新の本を取得する 
 def get_latest_books(day):
-    # 発売日が30日後のやつまで表示する
-    end_date = timezone.now() + timedelta(days=day) 
-    start_date = end_date - timedelta(days=120) 
-    books = Book.objects.filter(published_at__range=(start_date,end_date))
+    end_date = timezone.now() 
+    start_date = timezone.now() - timedelta(days=day)
+    books = Book.objects.filter(published_at__range=(start_date, end_date)).order_by('-published_at')
     return books
 
 

@@ -86,20 +86,20 @@
         
         <h1 class="font-bold md:text-4xl mx-2">みんなのお話</h1>
         <hr>
-        <div class="flex flex-wrap p-2 bg-gray-100 ">
-        {% for blog in blogs %}
-          <div class="w-full md:w-1/3 px-2 mb-4 ">
-     
-            <a href="{%url 'details_blog' blog.id %}" class=" block bg-gray-200  rounded shadow-md overflow-hidden hover:shadow-lg transition-shadow  p-5 bg-white">
-              <div class="flex items-center">
-                <img src="{{ blog.creator.image.url }}" alt="Profile Image" class="w-8 h-8   object-cover border rounded-full ">
-                <p class="pl-2 text-gray-600">{{ blog.creator }}</p>
-              </div>
-             
-              <h1>{{blog.title}}</h1>
-            </a>
-        </div>
-        {% endfor %}
+        <div class="  p-2 ">
+          {% for blog in blogs %}
+          <a  href="{%url 'details_blog' blog.id %}" class="flex items-center block bg-gray-200   p-5 bg-white">
+            <img src="{{ blog.creator.image.url }}" alt="Profile Image" class="w-8 h-8  object-cover border rounded-full mr-3 "> 
+            
+            <div class="">
+              <h1 class="font-bold text-xl" >{{blog.title}}</h1>               
+              <p class=" text-gray-600">{{ blog.creator }}</p>
+            </div>
+          
+          
+          </a>
+          <hr>
+          {% endfor %}
         </div>  
         <div class="text-right text-blue-400">
           <a class="" href="">もっと見る ＞</a>
@@ -116,9 +116,18 @@
       <div class="border-b-2 w-16 border-black"></div>
     {% endfor %}
     <!-- ツギヨムホーム画面広告する -->
-    
+   <div class="my-2">
+      <h1 class="font-bold text-xl bg-blue-900 text-white text-center my-2">人気タグ</h1>
+      <hr>
+      {% for tag in tag_list %}
+        <a href="{% url 'show_blog_tag' tag.title %}" class="bg-green-500 px-2 py-1 rounded-full text-white" >{{ tag.title }}</a>
+
+      {% endfor %}
+   </div>
 
   </div>
+
+
 
 
 
