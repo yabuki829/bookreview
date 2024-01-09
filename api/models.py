@@ -186,7 +186,7 @@ class Blog(models.Model):
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='blog')
     title = models.CharField(max_length=255)   
     content = models.TextField(default="")
-    created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name="blog",blank=True,null=True)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='blog',blank=True,null=True)
     

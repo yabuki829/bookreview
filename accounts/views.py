@@ -8,7 +8,7 @@ from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
 from .forms import SignupForm
-from api.models import Profile,Review,UserBook
+from api.models import Profile,Review,UserBook,Blog
 
 
 class CustomPasswordResetView(PasswordResetView):
@@ -74,17 +74,16 @@ class MyPageView(View):
         profile = Profile.objects.get(user=request.user)
 
         # ユーザーのレビュー一覧を取得
-
         reviews = Review.objects.filter(user=profile).select_related('user', 'book')
-
         # 次に読むに登録している本を取得
         next_books = UserBook.objects.filter(user=self.request.user).select_related("book")
-
-        # print(reviews)
+        blogs = Blog.objects.filter(creator=profile).order_by("-created_at")
+        
         context = {
             'profile': profile,
            'reviews': reviews,
            'next_books':next_books,
+           "blogs":blogs,
         }
 
         return render(request, 'mypage.html', context)
