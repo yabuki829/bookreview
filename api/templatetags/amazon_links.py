@@ -7,7 +7,7 @@ def amazon_url(isbn):
     isbn_clean = isbn.replace('-', '')
     return f"https://www.amazon.co.jp/dp/{isbn13_to_isbn10(isbn_clean)}"
 
-
+@register.filter
 def isbn13_to_isbn10(isbn13):
     if not isbn13.startswith('978') or len(isbn13) != 13:
         raise ValueError("ISBN-13 must start with '978' and be 13 characters long.")

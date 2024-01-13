@@ -19,8 +19,8 @@
 
       {% if book.image %}
         <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-      {% else %}
-        <div class="inlineb-block font-bold h-full flex items-center text-center">{{book.title}}</div>
+      {% else %}    
+        <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
       {% endif %}
       <div class="p-2 mx-4">
         <h2 class="font-bold text-sm md:text-2xl book-title">{{ book.title }}</h2>
@@ -95,7 +95,7 @@
   
 <div class="mx-2" id="reviews">
   {% for review in reviews %}
-    <div class="review">
+    <div id="{{review.id}}" class="review">
       <hr class="py-2">
       <p> {{ review.user.name }}</p>     
       <p>{{ review.content }}</p>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %} 
+{% load amazon_links %}
 {% load static %} 
 {% block title %}BookReview{% endblock %}
 {% block content %}
@@ -33,7 +34,7 @@
                     {% if book.image %}
                       <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
                     {% else %}
-                        <h1 class="bg-gray-200 flex items-center justify-center object-cover border-2 font-bold h-full  w-full">{{book.title}}</h1>
+                    <img class="w-32 object-cover border-2" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
                     {% endif %}
                     <div class="text-overlay absolute top-1 left-0">
                       <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold ">{{ forloop.counter }}</h1>
@@ -68,7 +69,7 @@
                     {% if book.image %}
                       <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
                     {% else %}
-                        <div class="inlineb-block font-bold h-full text-center ">{{book.title}}</div>
+                    <img class="w-32 object-cover border-2" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
                     {% endif %}
                   </a>
                   <div class="text-overlay absolute top-1 left-0">

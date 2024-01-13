@@ -1,6 +1,6 @@
 
 {% extends 'base.html' %} 
-
+{% load amazon_links %}
 {% block title %}マイページ{% endblock %}
 {% block mata %}
   <meta name="description" content="ディスクリプション　テスト">
@@ -43,7 +43,7 @@
               {% if next.book.image %}
                 <img class="object-cover " src="{{ next.book.image.url }}" alt="{{ next.book.title }}">
               {% else %}
-                  <h1 class="bg-gray-200 flex items-center justify-center object-cover  font-bold h-full ">{{next.book.title}}</h1>
+                <img class="w-32 object-cover border-2" src="https://images-na.ssl-images-amazon.com/images/P/{{  next.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
               {% endif %}
               <div class="text-overlay absolute top-1 left-0">
                 <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold ">{{ forloop.counter }}</h1>
@@ -64,12 +64,12 @@
       <div class="bg-gray-700 p-2 mx-auto px-4">
         <div class="grid grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-4 mx-auto">
           {% for review in reviews %}
-          <a class="image-container relative  w-full " href="{% url 'book_detail' review.book.id %}">
+          <a class="image-container relative  w-full" href="{% url 'book_detail' review.book.id %}">
             {% if review.book.image %}
               <img class="object-cover " src="{{ review.book.image.url }}" alt="{{ review.book.title }}">
             {% else %}
-                <h1 class="bg-gray-200 flex items-center justify-center object-cover font-bold h-full  w-full">{{review.book.title}}</h1>
-            {% endif %}
+            <img class="w-32 object-cover border-2" src="https://images-na.ssl-images-amazon.com/images/P/{{  review.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
+              {% endif %}
             <div class="text-overlay absolute top-1 left-0">
               <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold ">{{ forloop.counter }}</h1>
             </div>

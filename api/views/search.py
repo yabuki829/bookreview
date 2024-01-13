@@ -79,30 +79,35 @@ class SearchView(View):
                   # 出版日処理
                   
                   published_date = book_info.get('publishedDate', '')
-                  print(published_date,"ここだよ")
                   published_at = parse_partial_date(published_date)
-                  print(published_at, "変換後の日付")
-                  # 本のカテゴリ
+         
                   category_name_en = book_info.get('categories', [''])[0]
                   category, created = Category.objects.get_or_create(name_en=category_name_en)
                 
-                  # ローカルに本の情報を保存する
-                  print("タイトル:",book_info.get('title', ''))
-                  book = Book(
-                      isbn=query,
-                      title=book_info.get('title', ''),
-                      subTitle=book_info.get("subtitle",""),
-                      author=book_info.get('authors', [''])[0],  # 代表者一名のみ取得
-                      description=book_info.get('description', ''),
-                      published_at=published_at,
-                      category=category
-                  )
-                  
-                  if image_url:
-                      book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
-                  book.save()
+                  title = book_info.get('title', '')
+                  print("タイトル:",title)
 
-                  books = [book] 
+                  # もし同じタイトルがあれば追加しない
+                  books = Book.objects.filter(title=title)
+                  if len(books) != 0 :
+                    print("既に同じタイトルがあります")
+                    books
+                  else:
+                    book = Book(
+                        isbn=query,
+                        title=title,
+                        subTitle=book_info.get("subtitle",""),
+                        author=book_info.get('authors', [''])[0],  # 代表者一名のみ取得
+                        description=book_info.get('description', ''),
+                        published_at=published_at,
+                        category=category
+                    )
+                    
+                    if image_url:
+                        book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
+                    book.save()
+
+                    books = [book] 
               else:
                 print("本の情報がありませんでした。")
    
