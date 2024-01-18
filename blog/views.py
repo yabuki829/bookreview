@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic import View
-from api.models import Blog,Tag
+from api.models import Blog,Tag,Book
 from accounts.views import AccountClass
 # 記事の投稿
 class PostBlogView(View):
@@ -9,19 +9,41 @@ class PostBlogView(View):
     return render(request, "create_blog.html")
 
   def post(self,request):
+    if "isbn" in self.request.POST:
+      print('isbn')
+      isbn = self.request.POST["isbn"]
+      books= Book.objects.filter(isbn=isbn)
+      print(books)
+      if not books:
+        # ほんを取得する
+        pass
 
+      book = books.first
+
+      return render(request, "create_blog.html",{"book":book})
+
+
+
+    print(self.request.POST)
     print(self.request.POST["title"])
     title = self.request.POST["title"]
     content = self.request.POST["content"]
     tag = self.request.POST["tag"]
+    book_id = self.request.POST["book"]
     user = self.request.user
 
     accout = AccountClass()
+    if book_id :
+
+      book = Book.objects.get(id=book_id)
+      blog = BlogClass().post_blog(accout.get_profile(user),title,content,tag,book=book)
+    else:
+      blog = BlogClass().post_blog(accout.get_profile(user),title,content,tag)
     
-    blog = BlogClass().post_blog(accout.get_profile(user),title,content,tag)
     print(blog,"を作成しました")
    # 記事が作成されたら記事の詳細画面に移動する
     return redirect('details_blog', pk=blog.id)  
+
 
 # 記事の詳細
 class DetailsBlogView(View):
@@ -44,7 +66,6 @@ from django.db.models import Count
 class BlogListView(View):
 
   def get(self,request):
-
     
     tag_id = request.GET.get('tag_id', '') 
     print("tag:",tag_id)
@@ -155,13 +176,14 @@ class ShowTagsView(View):
   pass
 
 class BlogClass():
-  def post_blog(self,creator,title,content,tag):
-    blog = Blog.objects.create(creator=creator,title=title,content=content,tag=self.get_tag(tag))
+  def post_blog(self,creator,title,content,tag, book=None):
+
+    if book: 
+      blog = Blog.objects.create(creator=creator,title=title,content=content,tag=self.get_tag(tag),book=book)
+    else:
+      blog = Blog.objects.create(creator=creator,title=title,content=content,tag=self.get_tag(tag))
     return blog
   
-
- 
-
   def delete_blog(self,creator,blog_id):
     pass
 

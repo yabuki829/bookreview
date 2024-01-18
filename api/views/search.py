@@ -3,31 +3,14 @@ import requests
 from django.views.generic import View
 from django.shortcuts import render
 
-from django.core.files.base import ContentFile
-from io import BytesIO
-from django.utils.dateparse import parse_date
-
 from django.shortcuts import render
-from ..models import Book,Category
+
 
 from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
-from datetime import datetime
-
 from utils.book_service import BookService
 
-
-
-
-
-def get_books_from_Google_Books_API(isbn):
-    api_url = 'https://www.googleapis.com/books/v1/volumes'
-    params = {'q': 'isbn:' + isbn}
-    response = requests.get(api_url, params=params)
-
-    return response
 
 
 class SearchView(View):
@@ -39,7 +22,6 @@ class SearchView(View):
 
     print("検索:",query)
     book_service = BookService()
-    book_service.test_print()
     if query:
       if book_service.is_isbn13(query):
         books = book_service.get_book_with_isbn(query)
@@ -72,20 +54,3 @@ class SearchView(View):
     }
 
     return render(request, 'search.html', context)
-
-
-
-
-def format_isbn(isbn):
-    """
-    isbnをXXXX-X-XXXX-XXXX-X.の形に変換する
-    """
-    isbn = str(isbn)
-
-    parts = [isbn[:3], isbn[3:4], isbn[4:8], isbn[8:12], isbn[12:]]
-    
-    formatted_isbn = '-'.join(parts)
-
-    return formatted_isbn
-
-

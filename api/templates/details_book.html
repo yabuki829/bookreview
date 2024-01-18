@@ -49,10 +49,13 @@
       {% if exists_in_next_read %}
         <button class="bg-gray-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムから削除する</button>
       {% else %}
-      <button class="bg-blue-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムに追加する</button>
-      {% endif %}
+      
+        {% if request.user.is_authenticated  %}
+        <button class="bg-blue-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムに追加する</button>
+        {% endif %}
         
       
+      {% endif %}
       
     </form>
   </div>
