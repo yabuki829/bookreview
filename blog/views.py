@@ -16,6 +16,7 @@ class PostBlogView(View):
       print(books)
       if not books:
         # ほんを取得する
+        
         pass
 
       book = books.first
