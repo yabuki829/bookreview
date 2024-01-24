@@ -5,6 +5,9 @@ from django.views.generic import View
 from ..models import Book,UserBook,Review
 from django.shortcuts import render, get_object_or_404,redirect
 from accounts.views import AccountClass
+
+from utils.book_service import BookService
+
 class DetailsView(View):
   def get(self,request,pk):
     # book　の isbnがpkの本を表示する
@@ -38,24 +41,11 @@ class DetailsView(View):
     # ツギヨムに登録していなければ登録する
     # していれば解除する
     
-    print(pk,"を次に読む本に追加する")
 
+    book_service = BookService(request)
     book = Book.objects.get(pk=pk)
-
-
-    user = self.request.user
-
-    next_book_to_read, created = UserBook.objects.get_or_create(user=user, book=book)
-
-    # 
-    if not created:
-      # ツギヨムに登録済みなので削除する
-      print("ツギヨムから削除しました")
-      next_book_to_read.delete()
-    else:
-      print("ツギヨムに追加する")
-    
-  
+    print(book,"をツギヨムに追加する")
+    book_service.add_next_book_or_delete_book(book)
 
 
     return redirect('book_detail', pk=pk)  

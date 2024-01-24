@@ -21,9 +21,10 @@ class SearchView(View):
     # TODO 空白を入れて検索している場合も今後考えたい and検索
 
     print("検索:",query)
-    book_service = BookService()
+    book_service = BookService(request)
     if query:
       if book_service.is_isbn13(query):
+        query = query.replace('-', '')
         books = book_service.get_book_with_isbn(query)
         print("取得完了",books)
       else:

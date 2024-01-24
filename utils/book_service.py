@@ -17,6 +17,11 @@
 5. convert_isbn10_to_isbn13()
     isbn10をisbn13に変換する 
     元々isbn13の場合はそのままisbn13を返す
+6. add_next_book(book)
+    次に読む本に追加する
+7. write_review(book,content,rateing):
+    もしツギヨムに本が追加されて入れば削除する
+    レビューを書く
 
 """
 
@@ -28,9 +33,12 @@ from datetime import datetime
 from django.core.files.base import ContentFile
 from io import BytesIO
 
-from api.models import Book,Category
+from api.models import Book,Category,UserBook,Review
 
 class BookService():
+  def __init__(self, request):
+        self.request = request
+        
   def get_books_with_title(self,title):
     books = Book.objects.filter(title__icontains=title)
     return books
@@ -139,3 +147,28 @@ class BookService():
 
   def test_print(self):
     print("hogehogehogehogehogehogehogehgeogh")
+  
+  def add_next_book_or_delete_book(self,book):
+    # ツギヨムに追加する
+    user = self.request.user
+
+    next_book_to_read, created = UserBook.objects.get_or_create(user=user, book=book)
+    if not created:
+      # ツギヨムに登録済みなので削除する
+      print("ツギヨムから削除しました")
+      next_book_to_read.delete()
+    
+
+  def write_review(self,content,book,rating):
+    # もしツギヨムに追加されていればツギヨムから削除する
+    exists_in_next_read = UserBook.objects.filter(user=self.request.user, book=book)
+    if exists_in_next_read:
+      exists_in_next_read.delete()
+
+    Review.objects.create(
+                user=self.request.user.profile,  # ログインしているユーザーのプロフィール
+                content=content,
+                rating=rating,
+                book=book
+            )
+    

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from api.models import Review,Book
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
+from utils.book_service import BookService
 
 # レビュー画面のトップページ
 def index(request):
@@ -39,22 +39,15 @@ from django.contrib.auth.decorators import login_required
 
 @login_required
 def post_review(request, book_id):
-    print("レビューを投稿するぜ")
+    book_service = BookService(request)
     book = get_object_or_404(Book, pk=book_id)
     print(book)
+
     if request.method == 'POST':
-        print("POST")
         content = request.POST.get('content')
         rating = request.POST.get('rating')
         print(content,rating)
-        if content and rating:
-            Review.objects.create(
-                user=request.user.profile,  # ログインしているユーザーのプロフィール
-                content=content,
-                rating=rating,
-                book=book
-            )
-            print("投稿が完了しました")
-            return redirect('book_detail', pk=book.id)
+        book_service.write_review(content,book,rating)
+        return redirect('book_detail', pk=book.id)
 
     return render(request, 'review_form.html', {'book': book})

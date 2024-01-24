@@ -46,16 +46,22 @@
     <form method="post">
       {% csrf_token %}
       
-      {% if exists_in_next_read %}
-        <button class="bg-gray-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムから削除する</button>
+      {% if user_has_reviewed %}
+        <h1 class="border-2 border-black  font-bold p-2 mx-2 rounded text-sm md:text-base">完読済み</h1>
       {% else %}
-      
-        {% if request.user.is_authenticated  %}
-        <button class="bg-blue-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムに追加する</button>
+        {% if exists_in_next_read %}
+          <button class="bg-gray-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムから削除する</button>
+        {% else %}
+        
+          {% if request.user.is_authenticated  %}
+          <button class="bg-blue-400 text-white font-bold p-2 mx-2 rounded text-sm md:text-base">ツギヨムに追加する</button>
+          {% endif %}
+          
+        
         {% endif %}
+      {% endif %}
         
       
-      {% endif %}
       
     </form>
   </div>
