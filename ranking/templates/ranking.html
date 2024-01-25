@@ -1,17 +1,18 @@
 {% extends 'base.html' %} 
 {% block content %}
+{% load amazon_links %}
 {% load rating_stars %}
 <div class="container mx-auto p-4 ">
   <h1>月間ランキング</h1>
-  <div class="books grid grid-cols-3 md:grid-cols-7 gap-4 mx-2">
+  <div class="books grid grid-cols-3 md:grid-cols-6 gap-4 mx-2">
     {% for book in books %}
       <div class="image-container relative flex items-center ">
         <a   href="{% url 'book_detail' book.id %}">
           {% if book.image %}
-            <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-          {% else %}
-              <div class="inline-block font-bold h-full text-center ">{{book.title}}</div>
-          {% endif %}
+          <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
+        {% else %}    
+          <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
+        {% endif %}
         </a>
         <div class="text-overlay absolute top-1 left-0">
           <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
@@ -22,44 +23,71 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-   
-    let page = 1;
-    const loadMore = () => {
-      page++;
-      fetch(`?page=${page}`, {
-        headers: {
-          'X-Requested-With': 'XMLHttpRequest',
-        }
-      })
-      .then(response => response.json())
-      .then(data => {
+  function isbn13toisbn10(isbn13) {
+    if (!isbn13.startsWith('978') || isbn13.length !== 13) {
+        throw new Error("ISBN-13 must start with '978' and be 13 characters long.");
+    }
+    let isbn10_base = isbn13.substring(3, 12);  // 最初の3文字を取り除き、チェックディジットを除外
+    let checksum = 0;
+    for (let i = 0; i < isbn10_base.length; i++) {
+        checksum += (10 - i) * parseInt(isbn10_base.charAt(i), 10);
+    }
+    checksum = 11 - (checksum % 11);
+    if (checksum === 10) {
+        checksum = 'X';
+    } else if (checksum === 11) {
+        checksum = '0';
+    }
+    return isbn10_base + checksum;
+}
 
-        data.books.forEach(book => {
-          const bookDiv = document.createElement('div');
-          bookDiv.className = 'image-container relative flex items-center';
-          // HTMLコンテンツをbookのデータで生成
-          bookDiv.innerHTML = `<a href="/book/${book.id}">
-                                  <img src="${book.image_url}" alt="${book.title}" />
-                                
-                                </a>`;
-          document.querySelector('.books').appendChild(bookDiv);
-        });
 
-        if (data.has_next == false) {
-          window.removeEventListener('scroll', onScroll);
-        } 
-      });
-    };
-  
-    const onScroll = () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        loadMore();
+document.addEventListener('DOMContentLoaded', function() {
+  let page = 1;
+  let itemCount = document.querySelectorAll('.image-container').length; // 既存の要素数をカウント
+
+  const loadMore = () => {
+    page++;
+    fetch(`?page=${page}`, {
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
       }
-    };
+    })
+    .then(response => response.json())
+    .then(data => {
+      data.books.forEach(book => {
+        itemCount++; // 要素数をインクリメント
+        const bookDiv = document.createElement('div');
+        bookDiv.className = 'image-container relative flex items-center';
   
-    window.addEventListener('scroll', onScroll);
-  });
+       
+        // HTMLコンテンツをbookのデータで生成、順位を含める
+        bookDiv.innerHTML = `
+          <a href="/book/${book.id}">
+            ${book.image ? `<img class="object-cover border-2" src="${book.image.url}" alt="${book.title}">` : `<img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/${book.isbn_10}.TZZZZZZZ.jpg" alt="">`}
+          </a>
+          <div class="text-overlay absolute top-1 left-0">
+            <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">${itemCount}</h1>
+          </div>`;
+
+        document.querySelector('.books').appendChild(bookDiv);
+      });
+
+      if (!data.has_next) {
+        window.removeEventListener('scroll', onScroll);
+      }
+    });
+  };
+
+  const onScroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      loadMore();
+    }
+  };
+
+  window.addEventListener('scroll', onScroll);
+});
+
   </script>
 {% endblock %}
 

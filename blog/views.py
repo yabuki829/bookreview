@@ -23,27 +23,23 @@ class PostBlogView(View):
 
       return render(request, "create_blog.html",{"book":book})
 
-
-
     print(self.request.POST)
-    print(self.request.POST["title"])
-    title = self.request.POST["title"]
-    content = self.request.POST["content"]
-    tag = self.request.POST["tag"]
-    book_id = self.request.POST["book"]
+    print(self.request.POST.get("title"))  # "get" を使用して安全にアクセス
+    title = self.request.POST.get("title")
+    content = self.request.POST.get("content")
+    tag = self.request.POST.get("tag")
+    book_id = self.request.POST.get("book")  # "get" を使用して安全にアクセス
     user = self.request.user
 
     accout = AccountClass()
-    if book_id :
-
-      book = Book.objects.get(id=book_id)
-      blog = BlogClass().post_blog(accout.get_profile(user),title,content,tag,book=book)
+    if book_id:
+        book = Book.objects.get(id=book_id)
+        blog = BlogClass().post_blog(accout.get_profile(user), title, content, tag, book=book)
     else:
-      blog = BlogClass().post_blog(accout.get_profile(user),title,content,tag)
-    
-    print(blog,"を作成しました")
-   # 記事が作成されたら記事の詳細画面に移動する
-    return redirect('details_blog', pk=blog.id)  
+        blog = BlogClass().post_blog(accout.get_profile(user), title, content, tag)
+        print(blog,"を作成しました")
+      # 記事が作成されたら記事の詳細画面に移動する
+        return redirect('details_blog', pk=blog.id)  
 
 
 # 記事の詳細
@@ -176,6 +172,8 @@ class ShowTagsView(View):
  
   pass
 
+
+import re
 class BlogClass():
   def post_blog(self,creator,title,content,tag, book=None):
 
@@ -191,8 +189,9 @@ class BlogClass():
   def get_tag(self,tag_title):
     # タグを取得する
     # タグが登録されていなければ新しく作成する
-
-    tag, created = Tag.objects.get_or_create(title=tag_title)
+    # 文字列以外が含まれていれば削除する
+    cleaned_tag_title = re.sub(r'<[^>]+>|[^a-zA-Z0-9ぁ-んァ-ン一-龥\s]', '', tag_title)
+    tag, created = Tag.objects.get_or_create(title=cleaned_tag_title)
     return tag
 
 

@@ -2,6 +2,8 @@ from django.shortcuts import render
 from api.models import Book
 
 from api.views.index import get_top_books_by_reviews
+from utils.book_service import BookService
+
 # Create your views here.
 
 # ランキングを表示する
@@ -33,7 +35,7 @@ def index(request):
 
     page = request.GET.get('page', 1)
 
-    paginator = Paginator(books, 10)  # 10冊ごとにページ分割
+    paginator = Paginator(books, 18)  # 10冊ごとにページ分割
     try:
         books = paginator.page(page)
     except PageNotAnInteger:
@@ -44,11 +46,12 @@ def index(request):
       books = paginator.page(paginator.num_pages)
 
     if request.is_ajax():
-      
+      book_servise = BookService(request)
       books_data = [{
         'id': book.id,
         'title': book.title,
-        'image_url': book.image.url if book.image else None
+        'image_url': book.image.url if book.image else None,
+        "isbn_10":book_servise.convert_isbn13_to_isbn10(book.isbn)
         } for book in books.object_list]
 
       return JsonResponse({'books': books_data, 'has_next': books.has_next()})
