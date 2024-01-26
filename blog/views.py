@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views.generic import View
-from api.models import Blog,Tag,Book
+from api.models import Blog,Tag,Book,BlogComment
 from accounts.views import AccountClass
 # 記事の投稿
 class PostBlogView(View):
@@ -46,12 +46,18 @@ class PostBlogView(View):
 class DetailsBlogView(View):
   def get(self,request,pk):
     blog = Blog.objects.get(id=pk)
-    return render(request, "details.html",{"blog":blog})
+    comments = BlogComment.objects.filter(blog=blog)
+    print(comments)
+    return render(request, "details.html",{"blog":blog,"comments":comments})
 
 
   def post(self,request,pk):
     # pkにコメントする
-    print("コメントします")
+    blog_class = BlogClass()
+    comment = self.request.POST.get("comment")
+    creator = self.request.user.profile
+    blog = Blog.objects.get(id=pk)
+    blog_class.create_blog_comment(comment,blog,creator)
     return redirect('details_blog', pk=pk)  
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -107,6 +113,10 @@ class BlogListView(View):
     # タグの数が増えたらこれを使う
     tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
 
+    
+
+
+
     print(tag_list)
     context = {
         'blog_page': blog_page,  
@@ -120,7 +130,6 @@ class BlogListView(View):
 
 class Show_Blog_Tag(View):
   def get(self,request,tag):
-    print("呼ばれてますか？")
 
     tag_obj = Tag.objects.filter(title=tag).first()
 
@@ -170,11 +179,12 @@ class ShowTagsView(View):
     }
     return render(request, 'show_all_tags.html', context)
  
-  pass
+
 
 
 import re
 class BlogClass():
+  
   def post_blog(self,creator,title,content,tag, book=None):
 
     if book: 
@@ -194,4 +204,7 @@ class BlogClass():
     tag, created = Tag.objects.get_or_create(title=cleaned_tag_title)
     return tag
 
+  def create_blog_comment(self,text,blog,creator):
+    BlogComment.objects.create(comment=text,blog=blog,creator=creator)
+    
 
