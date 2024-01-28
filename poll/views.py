@@ -62,18 +62,14 @@ def create_poll(request):
 # ログインせずとも選択肢を見れるようにする
 def poll_vote(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
-
+    # 投票していれば投票結果に移動
+    if Vote.objects.filter(poll=poll, user=request.user).exists():
+        print("投票済みです")
+        return redirect('poll_results', poll_id=poll.id)
     if request.method == 'POST':
 
-        
-        print("投票ページ")
-        # 投票していれば投票結果に移動
         if request.user.is_anonymous:
             return render(request, 'poll_vote.html', {'poll': poll})
-
-        if Vote.objects.filter(poll=poll, user=request.user).exists():
-            return redirect('poll_results', poll_id=poll.id)
-
 
         if request.method == 'POST':
             # フォームから送信された選択肢のIDを取得

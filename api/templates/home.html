@@ -89,16 +89,39 @@
         <hr>
         <div class="  p-2 ">
           {% for blog in blogs %}
-          <a  href="{%url 'details_blog' blog.id %}" class="flex items-center block bg-gray-200   p-5 bg-white">
-            <img src="{{ blog.creator.image.url }}" alt="Profile Image" class="w-8 h-8  object-cover border rounded-full mr-3 "> 
-            
-            <div class="">
-              <h1 class="font-bold text-xl" >{{blog.title}}</h1>               
-              <p class=" text-gray-600">{{ blog.creator }}</p>
+            <a href="{%url 'details_blog' blog.id %}" class="block  rounded-xl bg-white p-4 md:p-10  mx-2 md:mx-auto">
+    
+    
+        
+            <div class="flex">
+              <div class="w-full mr-2">
+                <div>
+                  <div class="flex items-center">
+                    <img src="{{ blog.creator.image.url }}" alt="Profile Image" class="w-8 h-8   object-cover border rounded-full ">
+                    <p class="pl-2 text-gray-600">{{ blog.creator }}</p>
+                  </div>
+                  
+                </div>
+                <br>
+                <h1 class="">{{blog.title}}</h1>
+                <br>
+                <h1 class="inline bg-green-500 px-2 py-1 rounded-xl text-white">{{blog.tag}} </h1>
+              
+              </div>
+              {% if blog.book %}
+              {% if blog.book.image %}
+                <img class="w-32 pl-2" src="{{ blog.book.image.url }}" alt="{{ book.title }}">
+              {% else %}    
+                <img class="w-32 pl-2" src="https://images-na.ssl-images-amazon.com/images/P/{{ blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
+              {% endif %} 
+          
+          
+            {% endif %}
             </div>
-          
-          
-          </a>
+           
+            <h1 class="text-right">{{blog.created_at}}</h1>
+            </a>
+        
           <hr>
           {% endfor %}
         </div>  

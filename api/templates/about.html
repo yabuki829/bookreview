@@ -1,10 +1,68 @@
 {% extends 'base.html' %} 
 
-
+{% load static %} 
 {% block content %}
-  <h1>ツギヨムとは次に読む本を探すSNSサービスです</h1>
+<div class="relative w-full h-48 md:h-80">
+  <img class="object-fill w-full h-full blur-sm brightness-75" src="{% static 'images/about-bookshelf2.jpg' %}" alt="">
 
-  <h1>1. 読んだ本を記録しよう</h1>
-  <h1>2. 読んだ本やおすすめの本についてみんなで話そう</h1>
-  <h1>3. 投票</h1>
+  <div class="absolute inset-0 flex items-center justify-center">
+    <div class="text-center">
+      
+      <h1 class="font-bold text-3xl text-white md:text-5xl p-2">ツギヨム</h1>
+     <div class="bg-white bg-opacity-50 rounded-md ">
+      <h1 class="font-bold text-xl md:text-2xl text-gray-900 mx-4 my-2  ">本好きのためのサービス</h1>
+     </div>
+    </div>
+  </div>
+</div>
+
+  
+<br>
+ <div class="md:flex justify-around ">
+  <div class="flex flex-col items-center justify-center py-2">
+    <h1 class=" text-xl font-bold  md:text-center my-2 border-b-2 border-black border-l-2 px-2">1. 読んだ本を記録しよう</h1>
+
+    <img class="object-fill  w-48 h-auto" src="{% static 'images/about-1.png' %}" alt="">
+  
+  </div>
+ 
+  <div class="flex flex-col items-center justify-center py-2">
+    <h1 class="text-xl font-bold md:text-center my-2 border-b-2 border-black border-l-2 px-2">2. おすすめの本についてみんなで話そう</h1>
+
+    <img class="object-fill  w-48 h-auto" src="{% static 'images/about-2.png' %}" alt="">
+   
+  </div>
+  <div class="flex flex-col items-center justify-center py-2">
+    <h1 class="text-xl font-bold   md:text-center my-2 border-b-2 border-black border-l-2 px-2">3. 投票機能を使って一番を決めよう！</h1>
+    
+  <img class="object-fill  w-48 h-auto" src="{% static 'images/about-3.png' %}" alt="">
+ 
+</div>
+</div>
+<br>
+ <hr class="my-2">
+<div class="m-2 pb-10">
+  <h1 class="text-2xl md:text-4xl  md:text-center font-bold my-8 ">このサイトが目指す場所</h1>
+  <p class="text-center text-xl font-sans my-4 ">ツギヨムは次のようなサイトを目指しています。</p>
+
+  <div class="w-4/5 md:w-1/2 mx-auto">
+    <div class="flex">
+      <p class="h-8 w-8 font-bold text-3xl">1.</p>
+      <p class="m-2">利用者が好きな本をきっかけに新しい友人との繋がりを見つけることのできるサイト</p>
+    </div>
+    <div class="flex">
+      <p class="h-8 w-8 font-bold text-3xl">2.</p>
+      <p class="m-2">利用者が読みたい本を見つけることができるサイト</p>
+    </div>
+    <div class="flex">
+      <p class="h-8 w-8 font-bold text-3xl">3.</p>
+      <p class="m-2">利用者が知りたい本の感想が集まるサイト</p>
+    </div>
+  
+    
+  </div>
+</div>
+
+
+
 {% endblock %}

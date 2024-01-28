@@ -60,7 +60,7 @@ class BookService():
 
       if items:
         book_info = items[0]['volumeInfo']
-
+        
         # 画像処理
         image_url = book_info.get('imageLinks', {}).get('thumbnail')
         print("画像だよ",image_url)
@@ -73,12 +73,14 @@ class BookService():
 
         published_date = book_info.get('publishedDate', '')
         # 日付を修正
+        print(published_date)
         published_at = self.__parse_partial_date(published_date)
+        print(published_at)
         category_name_en = book_info.get('categories', [''])[0]
         # カテゴリを作成
         category, created = Category.objects.get_or_create(name_en=category_name_en)
         title = book_info.get('title', '')
-
+        print("タイトル：：",title)
         book = Book(
           isbn=isbn13,
             title=title,
@@ -88,6 +90,7 @@ class BookService():
             published_at=published_at,
             category=category
         )
+        book.save()
         if image_url:
           book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
           book.save()
@@ -96,6 +99,7 @@ class BookService():
 
     return books
 
+
   def __get_books_from_Google_Books_API(self,isbn):
     api_url = 'https://www.googleapis.com/books/v1/volumes'
     params = {'q': 'isbn:' + isbn}
@@ -103,14 +107,22 @@ class BookService():
 
     return response
 
-  def __parse_partial_date(self,date_str):
+
+
+  def __parse_partial_date(self, date_str):
     if date_str:
-        for date_format in ("%Y-%m-%d", "%Y-%m"):
+        # 年-月-日、年-月、年 の順でパースを試みる
+        for date_format in ("%Y-%m-%d", "%Y-%m", "%Y"):
             try:
-                return datetime.strptime(date_str, date_format).date()
+                parsed_date = datetime.strptime(date_str, date_format).date()
+                # 年のみの場合、1月1日を追加
+                if date_format == "%Y":
+                    return datetime(parsed_date.year, 1, 1).date()
+                return parsed_date
             except ValueError:
                 continue
-    return None  
+    return None
+
 
   def format_isbn(self,isbn):
     """
