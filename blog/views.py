@@ -9,6 +9,7 @@ class PostBlogView(View):
     return render(request, "create_blog.html")
 
   def post(self,request):
+
     if "isbn" in self.request.POST:
       print('isbn')
       isbn = self.request.POST["isbn"]
@@ -16,22 +17,21 @@ class PostBlogView(View):
       print(books)
       if not books:
         # ほんを取得する
-        
         pass
-
       book = books.first
 
       return render(request, "create_blog.html",{"book":book})
 
     print(self.request.POST)
-    print(self.request.POST.get("title"))  # "get" を使用して安全にアクセス
+    print(self.request.POST.get("title")) 
     title = self.request.POST.get("title")
     content = self.request.POST.get("content")
     tag = self.request.POST.get("tag")
-    book_id = self.request.POST.get("book")  # "get" を使用して安全にアクセス
+    book_id = self.request.POST.get("book") 
     user = self.request.user
 
     accout = AccountClass()
+    print("book:",book_id)
     if book_id:
         book = Book.objects.get(id=book_id)
         blog = BlogClass().post_blog(accout.get_profile(user), title, content, tag, book=book)
@@ -39,7 +39,7 @@ class PostBlogView(View):
         blog = BlogClass().post_blog(accout.get_profile(user), title, content, tag)
         print(blog,"を作成しました")
       # 記事が作成されたら記事の詳細画面に移動する
-        return redirect('details_blog', pk=blog.id)  
+    return redirect('details_blog', pk=blog.id)  
 
 
 # 記事の詳細

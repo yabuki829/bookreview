@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "api",
+    'ckeditor',
 
 ]
 
@@ -130,6 +131,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -181,3 +184,44 @@ EMAIL_HOST_PASSWORD = env('GMAIL_PASSWORD')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+CKEDITOR_BASEPATH = "/staticfiles/ckeditor/ckeditor/"
+
+# CKEDITOR_CONFIGS = {
+#     'custom_toolbar': {
+#         'width': '100%',
+#         'toolbar_Custom': [
+#             ['Bold', 'Underline', 'Strike', 'FontSize', 'RemoveFormat', 'Blockquote','Table','HorizontalRule'],
+#             ['TextColor', 'BGColor'],
+#             ['Undo', 'Redo'],
+#             ['CodeSnippet'],
+#             ['Link', 'Unlink'],
+#             ['Find', 'Replace'],
+#             ['NumberedList', 'BulletedList','-','CreateDiv'],
+#             ['Format'],
+#             ['Outdent', 'Indent'],
+#             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+#             ['Image'],
+#             ['Preview','Source','ShowBlocks','Maximize'],
+#         ],
+#         'codeSnippet_theme': 'monokai',
+#         'skin': 'moono-lisa',
+#         'codeSnippet_language': {
+#             'python': 'Python',
+#         },
+#         'toolbar': 'Custom',
+#         'extraPlugins': ','.join(['codesnippet', 'uploadimage']),
+#     },
+#     'default': {
+#         'width': '100%',
+#     },
+# }
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic'],
+            ['BulletedList', 'NumberedList'],
+            ['Link', 'Unlink']
+        ]
+    }
+}

@@ -1,9 +1,19 @@
 
 {% extends 'base.html' %}
 {% load amazon_links %}
+{% load static %} 
+{% block header %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+
+
+{% endblock %}
 
 {% block content %}
+
 <div class="my-16 rounded-xl bg-white p-10  md:w-3/4  md:mx-auto">
+  
   <div class=" mx-auto p-4 text-center">
    
     {% if book %}
@@ -36,7 +46,18 @@
       {% csrf_token %}
       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required type="text" name="title" placeholder="記事のタイトル">
       <input class="shadow appearance-none border rounded w-full py-2 px-3 my-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required type="text" name="tag" placeholder="記事のタグ">
-      <textarea class="w-full mt-2 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline " required name="content" id="" cols="30" rows="10" placeholder="内容""></textarea>
+      <textarea class="ckeditor w-full mt-2 shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required name="content" cols="30" rows="10" placeholder="内容"></textarea>
+      <script type="text/javascript">
+        CKEDITOR.replace('content', {
+            toolbar: [
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'FontSize'] }
+               
+            ],
+         
+            fontSize_sizes: '見出し/24px;本文/16px;'
+        });
+    </script>
+      <input type="hidden" name="book" value="{{book.id}}">
       <input type="hidden" name="form_type" value="search_book">
       <input type="hidden" name="create_blog" value="create_blog">
      
@@ -45,4 +66,6 @@
     </form>
   </div>
 </div>
+
+
 {% endblock %}

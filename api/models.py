@@ -179,13 +179,13 @@ class Tag(models.Model):
 
 # 談話室のところで一覧表示する
 # 本に対してのブログというかノート?記事?
-
+from ckeditor.fields import RichTextField
 
 class Blog(models.Model):
     id = models.CharField(default=create_id, primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='blog')
     title = models.CharField(max_length=255)   
-    content = models.TextField(default="")
+    content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
     book = models.ForeignKey(Book, on_delete=models.CASCADE,related_name="blog",blank=True,null=True)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='blog',blank=True,null=True)
