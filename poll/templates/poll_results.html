@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <div>
-  <div class="bg-white w-4/5 md:w-2/3  mx-auto  p-8  my-16 rounded-3xl ">
+  <div class="bg-white  md:w-2/3  mx-auto  p-8 md:my-16 rounded-3xl ">
     <h2 class="text-2xl font-bold">{{ poll.question }}</h2> <br>
     <h2>{{ poll.content|linebreaksbr }}</h2>
     <div class="flex items-center justify-end">
@@ -15,7 +15,7 @@
         <div class="text-right w-full pl-2">{{ percentage|floatformat:1 }}%</div>
       </div> {% endfor %} </div>
   </div>
-  <div class="bg-white w-4/5 md:w-2/3  mx-auto  p-8  my-16 rounded-3xl ">
+  <div class="bg-white md:w-2/3  mx-auto  p-8  my-16 rounded-3xl ">
     <h1 class="text-xl font-bold">コメント一覧</h1> {% if request.user.is_authenticated %}
     <form action="{% url 'post_comment' poll.id %}" method="POST"> {% csrf_token %} <textarea name="comment" class="w-full p-2 border " rows="4" required></textarea> <br>
       <div class="flex justify-center"> <button class="p-2  bg-blue-400 font-bold text-white" type="submit">投稿する</button> </div>

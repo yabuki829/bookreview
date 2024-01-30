@@ -46,7 +46,7 @@
             </div>
             <div class="text-right text-blue-400">
               <!-- 最新の本の一覧を表示する -->
-              <a class="" href="">もっと見る ＞</a>
+              {% comment %} <a class="" href="">もっと見る ＞</a> {% endcomment %}
             </div>
 
           
@@ -79,7 +79,7 @@
               {% endfor %}
             </div>
             <div class="text-right text-blue-400">
-              <a class="" href="">もっと見る ＞</a>
+              <a class="" href="{% url 'ranking' %}">もっと見る ＞</a>
             </div>
           </div>
         </div>
@@ -126,7 +126,7 @@
           {% endfor %}
         </div>  
         <div class="text-right text-blue-400">
-          <a class="" href="">もっと見る ＞</a>
+          <a href="{% url 'blog_list' %}">もっと見る ＞</a>
         </div>
       </div>
     

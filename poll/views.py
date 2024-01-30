@@ -63,9 +63,11 @@ def create_poll(request):
 def poll_vote(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     # 投票していれば投票結果に移動
-    if Vote.objects.filter(poll=poll, user=request.user).exists():
+
+    if request.user.is_authenticated and Vote.objects.filter(poll=poll, user=request.user).exists():
         print("投票済みです")
         return redirect('poll_results', poll_id=poll.id)
+
     if request.method == 'POST':
 
         if request.user.is_anonymous:

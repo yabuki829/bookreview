@@ -12,7 +12,11 @@ class PostBlogView(View):
 
     if "isbn" in self.request.POST:
       print('isbn')
+      print(self.request.POST.get("title")) 
       isbn = self.request.POST["isbn"]
+      title = self.request.POST.get("title")
+      content = self.request.POST.get("content")
+      tag = self.request.POST.get("tag")
       books= Book.objects.filter(isbn=isbn)
       print(books)
       if not books:
