@@ -73,13 +73,15 @@
     
  <div class="w-full md:w-96 md:h-screen  bg-gray-200 p-4 md:m-4  ">
   
-    <h1 class="font-bold text-xl">人気タグ</h1>
+  <h1 class="font-bold text-xl bg-blue-900 text-white text-center my-2">人気タグ</h1>
     <hr>
-    {% for tag in tag_list %}
-      <a href="{% url 'show_blog_tag' tag.title %}" class="bg-green-500 px-2 py-1 rounded-full text-white" >{{ tag.title }}</a>
-
-    {% endfor %}
-
+    <div class="flex flex-wrap gap-3">
+      {% for tag in tag_list %}
+          <a href="{% url 'show_blog_tag' tag.title %}" class="bg-green-500 px-2 py-1 rounded-full text-white">
+              {{ tag.title }}
+          </a>
+      {% endfor %}
+  </div>
   </div>
   
 

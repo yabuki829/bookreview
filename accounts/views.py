@@ -61,7 +61,30 @@ def activate(request, token):
 
 
 
+class UserPageView(View):
+    def get(self,request,pk):
+        print(pk)
+        user = User.objects.get(pk=pk)
+        # userが読んだ本
+        # userのツギヨム
+        # userのnote    
+        
+        # 自分のページであればmypageに遷移する
+        print("ユーザーページを表示します",user)
+        profile = Profile.objects.get(user=user)
+        reviews = Review.objects.filter(user=profile).select_related('user', 'book')
+        
+        next_books = UserBook.objects.filter(user=self.request.user).select_related("book")
+        blogs = Blog.objects.filter(creator=profile).order_by("-created_at")
 
+        context = {
+            'profile': profile,
+            'reviews': reviews,
+            'next_books':next_books,
+            "blogs":blogs,
+        }
+
+        return render(request, 'mypage.html', context)
 
 class MyPageView(View):
         # 自分の読んだ本の一覧を表示する -> レビューをつけた本

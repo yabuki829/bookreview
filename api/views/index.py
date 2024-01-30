@@ -83,3 +83,6 @@ def get_latest_books(day):
 
 
     
+# 新し具販売された本を表示する
+def NewBooksView(View):
+    pass
