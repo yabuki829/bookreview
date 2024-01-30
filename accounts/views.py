@@ -101,7 +101,7 @@ class MyPageView(View):
         # 次に読むに登録している本を取得
         next_books = UserBook.objects.filter(user=self.request.user).select_related("book")
         blogs = Blog.objects.filter(creator=profile).order_by("-created_at")
-        
+ 
         context = {
             'profile': profile,
            'reviews': reviews,
@@ -111,10 +111,30 @@ class MyPageView(View):
 
         return render(request, 'mypage.html', context)
 
+    def post(self,request):
+        
 
+        username = self.request.POST.get("name")
+        bio = self.request.POST.get("bio")
+        image = request.FILES.get("image")
+
+        profile = Profile.objects.get(user=request.user)
+        profile.name = username
+        profile.bio = bio
+        if image:
+            # 古い画像を削除する
+            profile.delete_old_image()
+            profile.image = image 
+            
+        profile.save()
+
+        
+
+        return redirect ("account")
 
 class AccountClass():
     # @staticmethod
     def get_profile(self,user):
         profile = Profile.objects.get(user=user)
         return profile
+

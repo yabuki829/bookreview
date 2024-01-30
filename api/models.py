@@ -44,13 +44,28 @@ class User(AbstractBaseUser,PermissionsMixin):
     return self.id.__str__()
 
 
+def user_directory_path(instance, filename):
+    # 画像ファイルのファイル名を user_id.png の形式にする
+    return 'profile_images/{0}.png'.format(instance.user.id)
 
+
+import os
+from django.conf import settings
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     bio = models.TextField()
-    image = models.ImageField(upload_to='profile_images/', default='default.png')
+    image = models.ImageField(upload_to=user_directory_path, default='default.png')
+    
+    def delete_old_image(self):
+        if self.image and hasattr(self.image, 'url'):
+            # 古い画像のファイルパスを取得する。
+            old_image_path = self.image.path
+            # デフォルトの画像でない場合は削除する。
+            if old_image_path != os.path.join(settings.MEDIA_ROOT, 'default.png'):
+                if os.path.isfile(old_image_path):
+                    os.remove(old_image_path)
     def __str__(self):
       return self.name
 

@@ -15,17 +15,18 @@
 {% endblock %}
 {% block content %}
 
-<div class="  bg-white ">
+<div class="  bg-gray-100">
 
 <div id="edit-profile-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-    <form id="edit-profile-form" class="bg-white p-6 rounded-lg overflow-auto" style="height: 400px; width: 400px;">
+    <form method="post" enctype="multipart/form-data"  id="edit-profile-form" class="bg-white p-6 rounded-lg overflow-auto" style="height: 400px; width: 400px;">
+      {% csrf_token %}
       <div class="flex justify-between my-4">
         <button class="bg-blue-400 text-white px-2 py-1 font-bold rounded-full" type="submit">保存する</button>
         <button id="cancel-button" class="...">キャンセル</button>
       </div>
       
       <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" name="name" placeholder="名前" value="{{ profile.name }}">
-      <textarea class="shadow appearance-none border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" name="bio" placeholder="紹介文" value="{{ profile.bio }}" name="" id="" cols="30" rows="10"></textarea>
+      <textarea class="shadow appearance-none border rounded  w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="text" name="bio" placeholder="紹介文"  cols="30" rows="10">{{profile.bio}}</textarea>
       <input class="shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"  type="file" name="image">
      
     </form>
@@ -33,11 +34,12 @@
   
 
   {% comment %} 案2 {% endcomment %}
-  <div class="flex flex-col items-center md:w-2/3  mx-3 md:mx-auto">
+  <div class="flex flex-col items-center md:w-2/3  mx-3 md:mx-auto bg-white rounded py-4">
     <img src="{{ profile.image.url }}" alt="Profile Image" class="w-32 h-32 md:w-48 md:h-48 object-cover border rounded-full mt-8">
     <button id="edit-profile-btn" class="bg-blue-500 text-white px-3 py-1 rounded-full my-4 font-bold">プロフィールを編集</button>
     <h2 class="text-xl font-bold">{{ profile.name }}</h2>
     <p class="mt-2 mx-10">{{ profile.bio }}</p>
+
   </div>
 
   <br>
@@ -141,7 +143,7 @@
     });
     
   </script>
-  
+
 
   <script>
     function showSection(sectionId, selectedBtn) {
