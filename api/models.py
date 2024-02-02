@@ -81,6 +81,8 @@ class Category(models.Model):
     def __str__(self):
         return self.name_en
 
+
+
 class Book(models.Model):
     id =  models.CharField(default=create_id(22), primary_key=True, max_length=22, editable=False)
     isbn = models.CharField(max_length=13, unique=True)
@@ -121,6 +123,7 @@ class UserBook(models.Model):
 
     def __str__(self):
         return f"{self.book.title}"
+
 
 
 
