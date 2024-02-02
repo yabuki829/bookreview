@@ -1,0 +1,27 @@
+databases:
+  - name: tsugiyomu_db
+    region: singapore
+    plan: free
+    databaseName: tsugiyomu_db
+    user: tsugiyomu_user
+
+services:
+  - type: web
+    name: tsugiyomu
+    env: python
+    region: singapore
+    buildCommand: './build.sh'
+    startCommand: 'gunicorn mysite.wsgi:application'
+    plan: free
+    branch: main
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: tsugiyomu_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+    autoDeploy: true
