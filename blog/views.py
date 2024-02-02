@@ -187,6 +187,8 @@ class ShowTagsView(View):
 
 
 import re
+
+
 class BlogClass():
   
   def post_blog(self,creator,title,content,tag, book=None):
