@@ -49,7 +49,6 @@ def get_top_books_by_reviews(days:int):
         num_reviews=Count("reviews")
     ).order_by("-num_reviews")
 
-    print(book)
     return book
 
 

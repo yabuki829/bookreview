@@ -36,7 +36,12 @@
   {% comment %} 案2 {% endcomment %}
   <div class="flex flex-col items-center md:w-2/3  mx-3 md:mx-auto bg-white rounded py-4">
     <img src="{{ profile.image.url }}" alt="Profile Image" class="w-32 h-32 md:w-48 md:h-48 object-cover border rounded-full mt-8">
+    
+    {% if profile.user == request.user %}
     <button id="edit-profile-btn" class="bg-blue-500 text-white px-3 py-1 rounded-full my-4 font-bold">プロフィールを編集</button>
+    {% endif %}
+      
+    
     <h2 class="text-xl font-bold">{{ profile.name }}</h2>
     <p class="mt-2 mx-10">{{ profile.bio }}</p>
 

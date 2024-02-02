@@ -57,7 +57,8 @@ class Profile(models.Model):
     name = models.CharField(max_length=255)
     bio = models.TextField()
     image = models.ImageField(upload_to=user_directory_path, default='default.png')
-    
+    # 画像を削除する。
+    # もっと良い方法があれば変更したい。
     def delete_old_image(self):
         if self.image and hasattr(self.image, 'url'):
             # 古い画像のファイルパスを取得する。

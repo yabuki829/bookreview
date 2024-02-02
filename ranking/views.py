@@ -30,17 +30,17 @@ from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from django.http import JsonResponse
 
 def index(request):
-    
+    print("")
+    # 30日間の本を取得する
     books = get_top_books_by_reviews(30)
 
     page = request.GET.get('page', 1)
-
-    paginator = Paginator(books, 18)  # 10冊ごとにページ分割
+    paginator = Paginator(books, 20)  # 10冊ごとにページ分割
     try:
         books = paginator.page(page)
     except PageNotAnInteger:
-        print("エラ−")
-        books = paginator.page(1)
+      print("エラー")
+      books = paginator.page(1)
     except EmptyPage:
       print("ページがからです")
       books = paginator.page(paginator.num_pages)

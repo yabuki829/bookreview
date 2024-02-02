@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 # Create your views here.
 
 from django.contrib.auth.views import PasswordResetView
@@ -92,8 +93,12 @@ class MyPageView(View):
         # 自分が投稿したPollを表示する
         # ログアウト
         # アカウントの削除　
-        
+    
     def get(self,request):
+        if not request.user.is_authenticated:
+            #HttpResponseRedirect: redirectとの違いはアプリを超えてリダイレクトできることらしい
+            return HttpResponseRedirect(reverse('login'))  
+
         profile = Profile.objects.get(user=request.user)
 
         # ユーザーのレビュー一覧を取得
@@ -112,7 +117,9 @@ class MyPageView(View):
         return render(request, 'mypage.html', context)
 
     def post(self,request):
-        
+        if not request.user.is_authenticated:
+            #HttpResponseRedirect: redirectとの違いはアプリを超えてリダイレクトできることらしい
+            return HttpResponseRedirect(reverse('login')) 
 
         username = self.request.POST.get("name")
         bio = self.request.POST.get("bio")
@@ -125,7 +132,7 @@ class MyPageView(View):
             # 古い画像を削除する
             profile.delete_old_image()
             profile.image = image 
-            
+
         profile.save()
 
         
