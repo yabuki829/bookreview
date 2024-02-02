@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from django.conf import settings
 
+from ...models import Profile
 User = get_user_model()
 
 class Command(BaseCommand):
@@ -13,13 +14,21 @@ class Command(BaseCommand):
             print("--------------------------------------------------------------------------")
             print("2. スーパーユーザーを作成します。")
             print("--------------------------------------------------------------------------")
-            User.objects.create_superuser(
+            user = User.objects.create_superuser(
                 email=settings.SUPERUSER_EMAIL,
                 password=settings.SUPERUSER_PASSWORD
             )
             print("--------------------------------------------------------------------------")
             print("3. スーパーユーザー作成が完了しました。")
             print("--------------------------------------------------------------------------")
+            # profileを作成する
+            print("プロフィールを作成します")
+            profile = Profile.objects.create(user=user,name="sho",bio="ツギヨム開発者です")
+            profile.save()
+            print("プロフィールの作成が完了しました。")
+            print("--------------------------------------------------------------------------")
+           
+        
         else:
             print("--------------------------------------------------------------------------")
             print("2.作成済みです")
