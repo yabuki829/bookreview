@@ -1,5 +1,12 @@
 Django==3.2.14
 Pillow==8.3.2 
+
 django-environ
 channels
 django-ckeditor
+dj-database-url
+dj-static
+python-decouple
+gunicorn
+psycopg2-binary
+whitenoise
