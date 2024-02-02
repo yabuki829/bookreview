@@ -56,12 +56,12 @@ def get_top_books_by_reviews(days:int):
 def get_news_blog():
     # お知らせを取得する
     blog_class = BlogClass()
-    # tag = blog_class.get_tag("お知らせ")
+    tag = blog_class.get_tag("お知らせ")
 
     profile = Profile.objects.get(id="1")
-    # news_blogs = reversed(Blog.objects.filter(creator=profile,tag=tag).order_by("created_at")[:10])
+    news_blogs = reversed(Blog.objects.filter(creator=profile,tag=tag).order_by("created_at")[:10])
 
-    # return news_blogs
+    return news_blogs
 
 
 
