@@ -15,9 +15,9 @@
 {% endblock %}
 {% block content %}
 
-<div class="  bg-gray-100">
+<div class="bg-gray-100">
 
-<div id="edit-profile-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div id="edit-profile-overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <form method="post" enctype="multipart/form-data"  id="edit-profile-form" class="bg-white p-6 rounded-lg overflow-auto" style="height: 400px; width: 400px;">
       {% csrf_token %}
       <div class="flex justify-between my-4">
@@ -31,20 +31,48 @@
      
     </form>
   </div>
-  
+
+ 
 
   {% comment %} 案2 {% endcomment %}
+  
   <div class="flex flex-col items-center md:w-2/3  mx-3 md:mx-auto bg-white rounded py-4">
+    <div class="flex justify-end w-full px-2 bg-white">
+
+      <button id="open-modal-btn">
+        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c636-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><path class="cls-6374f8d9b67f094e4896c636-1" d="M20.59,12a8.12,8.12,0,0,0-.15-1.57l2.09-1.2-2.87-5-2.08,1.2a8.65,8.65,0,0,0-2.72-1.56V1.5H9.14V3.91A8.65,8.65,0,0,0,6.42,5.47L4.34,4.27l-2.87,5,2.09,1.2a8.29,8.29,0,0,0,0,3.14l-2.09,1.2,2.87,5,2.08-1.2a8.65,8.65,0,0,0,2.72,1.56V22.5h5.72V20.09a8.65,8.65,0,0,0,2.72-1.56l2.08,1.2,2.87-5-2.09-1.2A8.12,8.12,0,0,0,20.59,12Z"></path><circle class="cls-6374f8d9b67f094e4896c636-1" cx="12" cy="12" r="3.82"></circle></svg>
+      </button>
+
+      <div id="modal-overlay"  class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white  rounded-lg overflow-auto flex flex-col" style="width: 200px" >
+          <h1 class="text-center bg-blue-400 text-white font-bold">Account</h1>
+          
+          <div class="flex items-center p-2 hover:bg-gray-200">
+            <svg id="Layer_1" class="m-1  rounded-full " data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c670-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c670-1" cx="12" cy="7.25" r="5.73"></circle><path class="cls-6374f8d9b67f094e4896c670-1" d="M1.5,23.48l.37-2.05A10.3,10.3,0,0,1,12,13h0a10.3,10.3,0,0,1,10.13,8.45l.37,2.05"></path></svg>
+            <a class=" w-full py-2" href="{% url 'logout'%}">ログアウト</a >
+          </div>
+          <div class="flex items-center p-2 hover:bg-red-400">
+            <svg id="Layer_1" class="m-1  rounded-full " data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="1.5" width="24" height="24" color="#000000"><defs><style>.cls-6374f8d9b67f094e4896c61d-1{fill:none;stroke:currentColor;stroke-miterlimit:10;}</style></defs><circle class="cls-6374f8d9b67f094e4896c61d-1" cx="9.61" cy="5.8" r="4.3"></circle><path class="cls-6374f8d9b67f094e4896c61d-1" d="M1.5,19.64l.7-3.47a7.56,7.56,0,0,1,7.41-6.08,7.48,7.48,0,0,1,4.6,1.57"></path><circle class="cls-6374f8d9b67f094e4896c61d-1" cx="16.77" cy="16.77" r="5.73"></circle><line class="cls-6374f8d9b67f094e4896c61d-1" x1="14.39" y1="14.39" x2="19.16" y2="19.16"></line><line class="cls-6374f8d9b67f094e4896c61d-1" x1="19.16" y1="14.39" x2="14.39" y2="19.16"></line></svg>
+            <a class=" w-full py-2" href="{% url 'logout'%}">アカウント削除</a >
+          </div>
+        
+        </div>
+      </div>
+      
+    </div>
     <img src="{{ profile.image.url }}" alt="Profile Image" class="w-32 h-32 md:w-48 md:h-48 object-cover border rounded-full mt-8">
     
     {% if profile.user == request.user %}
-    <button id="edit-profile-btn" class="bg-blue-500 text-white px-3 py-1 rounded-full my-4 font-bold">プロフィールを編集</button>
+      <button id="edit-profile-btn" class="bg-blue-500 text-white px-3 py-1 rounded-full my-4 font-bold">プロフィールを編集</button>
     {% endif %}
       
     
     <h2 class="text-xl font-bold">{{ profile.name }}</h2>
     <p class="mt-2 mx-10">{{ profile.bio }}</p>
 
+
+   
+  
   </div>
 
   <br>
@@ -52,7 +80,7 @@
   
   <div class="flex">
     <button id="next-books-btn" class="w-full font-bold bg-gray-700 text-white h-8 " onclick="showSection('next-books', this)">ツギヨム</button>
-    <button id="read-books-btn" class="w-full font-bold bg-gray-200 border-l border-r border-gray-300" onclick="showSection('read-books', this)">読んだ本</button>
+    <button id="read-books-btn" class="w-full font-bold bg-gray-200 border-l border-r border-gray-300" onclick="showSection('read-books', this)">本棚</button>
     <button id="blog-btn" class="w-full font-bold bg-gray-200 " onclick="showSection('blog-content', this)">Note</button>
   </div>
 
@@ -151,6 +179,23 @@
 
 
   <script>
+
+    //　ギアーのアイコン(open-modal-btn)を押した modal-overlayを表示する
+    document.getElementById('open-modal-btn').addEventListener('click', function() {
+      document.getElementById('modal-overlay').classList.toggle('hidden');
+    });
+
+    window.addEventListener('click', function(e) {
+      var overlay = document.getElementById('modal-overlay');
+      if (e.target === overlay) {
+        overlay.classList.add('hidden');
+      }
+    });
+
+
+  </script>
+
+  <script>
     function showSection(sectionId, selectedBtn) {
       // すべてのコンテンツセクションを非表示にする
       document.querySelectorAll('.content-section').forEach(function(section) {
@@ -178,6 +223,7 @@
   
   
     </script>
+
 </div>
 
 
