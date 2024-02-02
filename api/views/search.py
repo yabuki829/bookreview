@@ -1,12 +1,6 @@
-import re
-import requests
+
 from django.views.generic import View
 from django.shortcuts import render
-
-from django.shortcuts import render
-
-
-from django.core.paginator import Paginator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from utils.book_service import BookService
