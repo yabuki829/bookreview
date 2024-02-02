@@ -13,7 +13,7 @@ class HomeView(View):
 
     top_books_30 = get_top_books_by_reviews(100)
 
-    # news_blogs = get_news_blog()
+    news_blogs = get_news_blog()
     blogs = get_blogs(12)
 
     tag_list = Tag.objects.annotate(num_blogs=Count('blog')).order_by('-num_blogs')[:20]
@@ -23,7 +23,7 @@ class HomeView(View):
         "latest_books": get_latest_books(30),
         "top_books_7": top_books_7,
         "top_books_30":top_books_30,
-        # "news_blogs":news_blogs,
+        "news_blogs":news_blogs,
         "blogs":blogs,
          "tag_list":tag_list,
         }
@@ -58,7 +58,7 @@ def get_news_blog():
     blog_class = BlogClass()
     tag = blog_class.get_tag("お知らせ")
 
-    profile = Profile.objects.get(id="1")
+    profile = Profile.objects.get(id="xOJkvquUkJ")
     news_blogs = reversed(Blog.objects.filter(creator=profile,tag=tag).order_by("created_at")[:10])
 
     return news_blogs
