@@ -36,9 +36,11 @@ class SignUpView(CreateView):
         # メールを送信する
         #TODO 本番環境ではurlを変える
         print("メールを送信しました。")
+
+
         send_mail(
             'アカウントの確認',
-            f'認証URL: http://127.0.0.1:8000/accounts/activate/{user.activation_token}/',
+            f'認証URL: https://tsugiyomu.net/accounts/activate/{user.activation_token}/',
             'from-email@example.com',
             [user.email],
             fail_silently=False,
