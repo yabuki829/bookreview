@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 
-from ..models import Profile,Blog,Tag
+from ..models import Profile,Blog,Tag,User
 
 from blog.views import BlogClass
 class HomeView(View):
@@ -58,7 +58,9 @@ def get_news_blog():
     blog_class = BlogClass()
     tag = blog_class.get_tag("お知らせ")
 
-    profile = Profile.objects.get(id="xOJkvquUkJ")
+    user = User.objects.get(email="sdip2025@gmail.com")
+
+    profile = Profile.objects.get(user=user)
     news_blogs = reversed(Blog.objects.filter(creator=profile,tag=tag).order_by("created_at")[:10])
 
     return news_blogs
