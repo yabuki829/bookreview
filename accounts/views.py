@@ -29,15 +29,13 @@ class SignUpView(CreateView):
     template_name = 'registration/signup.html'
     
     def form_valid(self, form):
+        print("アカウントを作成します。")
         user = form.save(commit=False)
         user.is_active = False
         user.save()
-        
+    
         # メールを送信する
-        #TODO 本番環境ではurlを変える
         print("メールを送信しました。")
-
-
         send_mail(
             'アカウントの確認',
             f'認証URL: https://tsugiyomu.net/accounts/activate/{user.activation_token}/',

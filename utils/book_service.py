@@ -36,7 +36,7 @@ from io import BytesIO
 from api.models import Book,Category,UserBook,Review
 
 class BookService():
-  def __init__(self, request):
+  def __init__(self, request=None):
         self.request = request
         
   def get_books_with_title(self,title):

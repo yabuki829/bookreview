@@ -1,6 +1,6 @@
 from django.test import TestCase
 from .models import Book
-from .views import search
+from utils.book_service import BookService
 
 
 # 本の検索
@@ -11,7 +11,9 @@ class BookTestCase(TestCase):
   def test_fetch_book_from_GoogleBooksAPI(self):
     """Google Books API から本を取得できるかのテスト"""
     isnb = "9784798068169"
-    response = search.get_books_from_Google_Books_API(isnb)
+
+    servise = BookService() 
+    response = servise.get_book_with_isbn(isnb)
     self.assertIsNotNone(response)
 
 
