@@ -85,6 +85,7 @@ class BookService():
         title = book_info.get('title', '')
         print("タイトル：",title)
         book = Book(
+          id = self.create_id(22),
           isbn=isbn13,
             title=title,
             subTitle=book_info.get("subtitle",""),
