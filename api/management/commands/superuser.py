@@ -27,7 +27,7 @@ class Command(BaseCommand):
             servise = BookService()
 
             profile = Profile.objects.create(
-                id = servise.create_id(22),
+                id = servise.create_id(10),
                 user=user,name="sho",bio="ツギヨム開発者です"
                 )
             profile.save()
