@@ -80,7 +80,7 @@ class BookService():
         # カテゴリを作成
         category, created = Category.objects.get_or_create(name_en=category_name_en)
         title = book_info.get('title', '')
-        print("タイトル：：",title)
+        print("タイトル：",title)
         book = Book(
           isbn=isbn13,
             title=title,
@@ -90,6 +90,7 @@ class BookService():
             published_at=published_at,
             category=category
         )
+        print("セーブができない。")
         book.save()
         if image_url:
           book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
