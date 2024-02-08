@@ -207,7 +207,7 @@ class Tag(models.Model):
 from ckeditor.fields import RichTextField
 
 class Blog(models.Model):
-    id = models.CharField(default=lambda:create_id(22), primary_key=True, max_length=22, editable=False)
+    id = models.CharField(default="", primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='blog')
     title = models.CharField(max_length=255)   
     content = RichTextField()
@@ -220,7 +220,7 @@ class Blog(models.Model):
 
 
 class BlogComment(models.Model):
-    id = models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id = models.CharField(default="", primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE)
     comment = models.CharField(max_length=255)   
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE,related_name="blog_comment",blank=True,null=True)
