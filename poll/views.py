@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from api.models import Poll,Vote,Book,Choice,Profile,Comment_Poll
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from utils.book_service import BookService
 # 一覧表示
 def poll_list(request):
 
@@ -38,7 +38,7 @@ def create_poll(request):
     
     if request.method == 'POST':
         print("pollを作成します")
-
+        servise = BookService()
         question = request.POST.get('question')
         content = request.POST.get('content')
         print(question)
@@ -47,7 +47,7 @@ def create_poll(request):
        
         if question:
             profile = Profile.objects.get(user=request.user)
-            poll = Poll.objects.create(creator=profile, question=question,content=content)
+            poll = Poll.objects.create(id=servise.create_id(22),creator=profile, question=question,content=content)
 
             for choice_text in choices:
                 print(choice_text)
@@ -81,9 +81,10 @@ def poll_vote(request, poll_id):
             # # TODO 匿名でも投票できるようにするか考える
             # 選択された選択肢のIDが空でないことを確認
             if chosen_choice_id:
+                servise = BookService()
                 chosen_choice = Choice.objects.get(id=chosen_choice_id)
                 print(f"選択された選択肢: {chosen_choice.text}")
-                Vote.objects.create(poll=poll, choice=chosen_choice, user=request.user)
+                Vote.objects.create(id=servise.create_id(22) ,poll=poll, choice=chosen_choice, user=request.user)
                 
                 return redirect('poll_results', poll_id=poll.id)
 
@@ -150,8 +151,8 @@ def post_comment(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     profile = Profile.objects.get(user=request.user)
     comment = request.POST.get('comment')
-
-    Comment_Poll.objects.create(creator=profile,text=comment,poll=poll)
+    servise = BookService()
+    Comment_Poll.objects.create(id=servise.create_id(22) ,creator=profile,text=comment,poll=poll)
 
     print(Comment_Poll.objects.all())
     return redirect('poll_results',poll_id=poll_id) 

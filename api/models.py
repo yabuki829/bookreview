@@ -53,7 +53,7 @@ import os
 from django.conf import settings
 
 class Profile(models.Model):
-    id =  models.CharField(default=lambda: get_random_string(10), primary_key=True, max_length=10, editable=False)
+    id =  models.CharField(default="", primary_key=True, max_length=10, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     bio = models.TextField()
@@ -84,7 +84,7 @@ class Category(models.Model):
 
 
 class Book(models.Model):
-    id = models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id = models.CharField(default="", primary_key=True, max_length=22, editable=False)
     isbn = models.CharField(max_length=13, unique=True)
     title = models.CharField(max_length=255)
     subTitle = models.CharField(max_length=255,default="")
@@ -131,7 +131,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import transaction
 
 class Review(models.Model):
-    id =  models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id =  models.CharField(default="", primary_key=True, max_length=22, editable=False)
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -156,7 +156,7 @@ class Review(models.Model):
 
 
 class Poll(models.Model):
-    id =  models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id =  models.CharField(default="" ,primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='created_polls')
     question = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -172,7 +172,7 @@ class Choice(models.Model):
         return self.text
 
 class Vote(models.Model):
-    id =  models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id =  models.CharField(default="", primary_key=True, max_length=22, editable=False)
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)  
@@ -187,7 +187,7 @@ class Vote(models.Model):
         
 
 class Comment_Poll(models.Model):
-    id =  models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id =  models.CharField(default="", primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='comment')
     text = models.TextField(default="")
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE,related_name='comment_poll')
@@ -207,7 +207,7 @@ class Tag(models.Model):
 from ckeditor.fields import RichTextField
 
 class Blog(models.Model):
-    id = models.CharField(default=lambda: get_random_string(22), primary_key=True, max_length=22, editable=False)
+    id = models.CharField(default=lambda:create_id(22), primary_key=True, max_length=22, editable=False)
     creator = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='blog')
     title = models.CharField(max_length=255)   
     content = RichTextField()

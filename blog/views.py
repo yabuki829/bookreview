@@ -187,16 +187,19 @@ class ShowTagsView(View):
 
 
 import re
-
+from utils.book_service import BookService
 
 class BlogClass():
   
   def post_blog(self,creator,title,content,tag, book=None):
+    servise = BookService()
+    id =servise.create_id(22)
+    print("作成したid:",id)
 
     if book: 
-      blog = Blog.objects.create(creator=creator,title=title,content=content,tag=self.get_tag(tag),book=book)
+      blog = Blog.objects.create(id=id,creator=creator,title=title,content=content,tag=self.get_tag(tag),book=book)
     else:
-      blog = Blog.objects.create(creator=creator,title=title,content=content,tag=self.get_tag(tag))
+      blog = Blog.objects.create(id=id,creator=creator,title=title,content=content,tag=self.get_tag(tag))
     return blog
   
   def delete_blog(self,creator,blog_id):
@@ -211,6 +214,7 @@ class BlogClass():
     return tag
 
   def create_blog_comment(self,text,blog,creator):
-    BlogComment.objects.create(comment=text,blog=blog,creator=creator)
+    servise = BookService()
+    BlogComment.objects.create(id=servise.create_id(22) ,comment=text,blog=blog,creator=creator)
     
 

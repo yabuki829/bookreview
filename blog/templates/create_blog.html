@@ -42,13 +42,19 @@
       <script type="text/javascript">
         CKEDITOR.replace('content', {
             toolbar: [
-                { name: 'basicstyles', items: ['Bold', 'Italic', 'FontSize'] }
+                { name: 'basicstyles', items: ['Bold', 'Italic', 'FontSize']}
                
             ],
+            
          
             fontSize_sizes: '見出し/24px;本文/16px;'
         });
     </script>
+    {% comment %} 新しいバージョンが追加されるまでこれを入れとく  {% endcomment %}
+    <style>
+        
+      .cke_notifications_area { display: none; }
+    </style>
       <input type="hidden" name="book" value="{{book.id}}">
       <input type="hidden" name="form_type" value="search_book">
       <input type="hidden" name="create_blog" value="create_blog">

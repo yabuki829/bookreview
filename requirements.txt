@@ -4,7 +4,7 @@ requests
 
 django-environ
 channels
-django-ckeditor
+django-ckeditor>=4.24.0
 dj-database-url
 dj-static
 python-decouple

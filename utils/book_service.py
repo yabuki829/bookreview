@@ -28,12 +28,15 @@
 import re
 import requests
 from datetime import datetime
-
+from django.utils.crypto import get_random_string
 # 画像系
 from django.core.files.base import ContentFile
 from io import BytesIO
 
 from api.models import Book,Category,UserBook,Review
+
+
+
 
 class BookService():
   def __init__(self, request=None):
@@ -179,6 +182,7 @@ class BookService():
       exists_in_next_read.delete()
 
     Review.objects.create(
+                id = self.create_id(22),
                 user=self.request.user.profile,  # ログインしているユーザーのプロフィール
                 content=content,
                 rating=rating,
@@ -199,3 +203,6 @@ class BookService():
     else:
         checksum = str(checksum)
     return isbn10_base + checksum
+
+  def create_id(self,n):
+    return get_random_string(n)

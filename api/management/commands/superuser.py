@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 
 from ...models import Profile
+from utils.book_service import BookService
 User = get_user_model()
 
 class Command(BaseCommand):
@@ -23,7 +24,12 @@ class Command(BaseCommand):
             print("--------------------------------------------------------------------------")
             # profileを作成する
             print("プロフィールを作成します")
-            profile = Profile.objects.create(user=user,name="sho",bio="ツギヨム開発者です")
+            servise = BookService()
+
+            profile = Profile.objects.create(
+                id = servise.create_id(22),
+                user=user,name="sho",bio="ツギヨム開発者です"
+                )
             profile.save()
             print("プロフィールの作成が完了しました。")
             print("--------------------------------------------------------------------------")
