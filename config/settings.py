@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-q4*b+fq$4)_$h-=21e0)bj2hjg#(sy)id6f3-9_36(=jneths-
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['https://tsugiyomu.net/',"http://127.0.0.1:8000/"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
