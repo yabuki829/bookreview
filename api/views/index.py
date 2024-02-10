@@ -59,7 +59,7 @@ def get_news_blog():
     tag = blog_class.get_tag("お知らせ")
 
     user = User.objects.get(email="sdip2025@gmail.com")
-
+    
     profile = Profile.objects.get(user=user)
     news_blogs = reversed(Blog.objects.filter(creator=profile,tag=tag).order_by("created_at")[:10])
 
