@@ -94,7 +94,7 @@ class BookService():
             published_at=published_at,
             category=category
         )
-        print("セーブができない。")
+        
         book.save()
         if image_url:
           book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
