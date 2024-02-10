@@ -27,11 +27,7 @@
       
       </div>
       {% if blog.book %}
-      {% if blog.book.image %}
-        <img class="w-32 pl-2" src="{{ blog.book.image.url }}" alt="{{ book.title }}">
-      {% else %}    
-        <img class="w-32 pl-2" src="https://images-na.ssl-images-amazon.com/images/P/{{ blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-      {% endif %} 
+      <img class="w-32 pl-2" src="https://images-na.ssl-images-amazon.com/images/P/{{ blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
   
   
     {% endif %}

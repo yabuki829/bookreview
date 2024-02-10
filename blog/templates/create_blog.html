@@ -18,12 +18,7 @@
    
     {% if book %}
     <div class=" flex justify-center">
-      {% if book.image %}
-        
-      <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-      {% else %}    
-        <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-      {% endif %} 
+      <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
       <input type="hidden" name="book" value="{{book.id}}">
     </div>
    

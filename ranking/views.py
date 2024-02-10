@@ -50,7 +50,7 @@ def index(request):
       books_data = [{
         'id': book.id,
         'title': book.title,
-        'image_url': book.image.url if book.image else None,
+        # 'image_url': book.image.url if book.image else None,
         "isbn_10":book_servise.convert_isbn13_to_isbn10(book.isbn)
         } for book in books.object_list]
 

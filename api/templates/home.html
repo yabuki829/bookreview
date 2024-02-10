@@ -41,11 +41,7 @@
             <div class="grid grid-cols-3 md:grid-cols-6 gap-4 mx-2">
               {% for book in latest_books %}
                   <a class="image-container relative  w-full " href="{% url 'book_detail' book.id %}">
-                    {% if book.image %}
-                      <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-                    {% else %}
                     <img class="w-32 object-cover border-2" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-                    {% endif %}
                     <div class="text-overlay absolute top-1 left-0">
                       <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold ">{{ forloop.counter }}</h1>
                     </div>
@@ -76,11 +72,7 @@
                 <div class="image-container relative flex items-center ">
                   <!-- 画像をリンクにする -->
                   <a   href="{% url 'book_detail' book.id %}">
-                    {% if book.image %}
-                      <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-                    {% else %}
                     <img class="w-32 object-cover border-2" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-                    {% endif %}
                   </a>
                   <div class="text-overlay absolute top-1 left-0">
                     <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
@@ -119,12 +111,7 @@
               
               </div>
               {% if blog.book %}
-              {% if blog.book.image %}
-                <img class="w-32 pl-2" src="{{ blog.book.image.url }}" alt="{{ book.title }}">
-              {% else %}    
-                <img class="w-32 pl-2" src="https://images-na.ssl-images-amazon.com/images/P/{{ blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-              {% endif %} 
-          
+              <img class="w-32 pl-2" src="https://images-na.ssl-images-amazon.com/images/P/{{ blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
           
             {% endif %}
             </div>

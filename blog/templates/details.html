@@ -74,11 +74,7 @@
     {% if blog.book %}
     <div class="justify-center flex bg-white">
       <a class='p-2 'href="{% url 'book_detail' blog.book.id %}" target="_blank" rel="noopener noreferrer">
-        {% if blog.book.image %}
-        <img class="object-cover border-2" src="{{ blog.book.image.url }}" alt="{{ book.title }}">
-        {% else %}    
-          <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-        {% endif %} 
+        <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  blog.book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
       </a>
     
       

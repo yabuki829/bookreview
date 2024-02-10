@@ -65,13 +65,7 @@ class BookService():
         book_info = items[0]['volumeInfo']
         
         # 画像処理
-        image_url = book_info.get('imageLinks', {}).get('thumbnail')
-        print("画像だよ",image_url)
-        if image_url:
-            image_response = requests.get(image_url)
-            if image_response.status_code == 200:
-                # BytesIOを使用して一時ファイルを作成する
-                image_temp = BytesIO(image_response.content)
+   
  
 
         published_date = book_info.get('publishedDate', '')
@@ -96,10 +90,8 @@ class BookService():
         )
         
         book.save()
-        if image_url:
-          book.image.save(f"{book.id}.jpg", ContentFile(image_temp.getvalue()), save=True)
-          book.save()
-          books = [book] 
+      
+        books = [book] 
 
 
     return books

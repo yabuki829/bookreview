@@ -93,7 +93,6 @@ class Book(models.Model):
     description = models.TextField(default="") 
     published_at = models.DateField()
 
-    image = models.ImageField(upload_to='books/images/')
     # 本の評価の平均
     average_rating = models.FloatField(default=0.0, blank=True)
     review_count = models.IntegerField(default=0, blank=True)

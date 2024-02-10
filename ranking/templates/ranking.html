@@ -8,11 +8,7 @@
     {% for book in books %}
       <div class="image-container relative flex items-center ">
         <a   href="{% url 'book_detail' book.id %}">
-          {% if book.image %}
-          <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-        {% else %}    
           <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-        {% endif %}
         </a>
         <div class="text-overlay absolute top-1 left-0">
           <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">{{ forloop.counter }}</h1>
@@ -64,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // HTMLコンテンツをbookのデータで生成、順位を含める
         bookDiv.innerHTML = `
           <a href="/book/${book.id}">
-            ${book.image ? `<img class="object-cover border-2" src="${book.image.url}" alt="${book.title}">` : `<img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/${book.isbn_10}.TZZZZZZZ.jpg" alt="">`}
+            <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/${book.isbn_10}.TZZZZZZZ.jpg" alt="">
           </a>
           <div class="text-overlay absolute top-1 left-0">
             <h1 class="rounded-r bg-blue-400 w-8 text-center text-white font-bold">${itemCount}</h1>

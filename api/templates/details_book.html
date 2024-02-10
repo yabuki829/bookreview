@@ -17,11 +17,7 @@
     <!-- 本の詳細情報 -->
     <div class="w-full flex  justify-center items-center">
 
-      {% if book.image %}
-        <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-      {% else %}    
-        <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
-      {% endif %}
+      <img class="w-36" src="https://images-na.ssl-images-amazon.com/images/P/{{  book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
       <div class="p-2 mx-4">
         <h2 class="font-bold text-sm md:text-2xl book-title">{{ book.title }}</h2>
         <p>{{ book.average_rating|stars }} {{book.average_rating|floatformat:1}}</p>

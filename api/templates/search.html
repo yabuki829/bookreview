@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load amazon_links %}
 {% block content %}
 <div class="md:w-2/3  md:mx-auto">
 
@@ -11,12 +11,7 @@
         <div class="w-full mb-4 mx-2 ">
           <a href="{% url 'book_detail' book.id %}" class=" block bg-white p-4">
             <div class="flex items-center">
-              {% if book.image %}
-                <img class="object-cover border-2" src="{{ book.image.url }}" alt="{{ book.title }}">
-              {% else %}
-
-                  <div class="inlineb-block border-2 ">画像がありません</div>
-              {% endif %}
+              <img class="w-32 pl-2" src="https://images-na.ssl-images-amazon.com/images/P/{{ book.isbn|isbn13_to_isbn10 }}.TZZZZZZZ.jpg" alt="">
               <div class="p-2">
                 <h2 class="font-bold text-sm md:text-2xl">{{ book.title }}</h2>
                 <p class="text-gray-700 text-base md:font-bold">{{ book.description|truncatechars:100}}</p>
