@@ -53,7 +53,7 @@ import os
 from django.conf import settings
 
 class Profile(models.Model):
-    id =  models.CharField(default="", primary_key=True, max_length=10, editable=False)
+    id =  models.CharField(default="tsugiyomu", primary_key=True, max_length=10, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     bio = models.TextField()

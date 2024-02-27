@@ -8,7 +8,7 @@ class HomeView(View):
   def get(self,request):
     # 最近のレビューを表示する
     # 最近のpollを表示する
-   
+    
     top_books_7 = get_top_books_by_reviews(7)
 
     top_books_30 = get_top_books_by_reviews(100)
