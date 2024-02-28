@@ -78,15 +78,16 @@ class BookService():
         category, created = Category.objects.get_or_create(name_en=category_name_en)
         title = book_info.get('title', '')
         print("タイトル：",title)
+        
         book = Book(
           id = self.create_id(22),
           isbn=isbn13,
-            title=title,
-            subTitle=book_info.get("subtitle",""),
-            author=book_info.get('authors', [''])[0],  # 代表者一名のみ取得
-            description=book_info.get('description', ''),
-            published_at=published_at,
-            category=category
+          title=title,
+          subTitle=book_info.get("subtitle",""),
+          author=book_info.get('authors', [''])[0],  # 代表者一名のみ取得
+          description=book_info.get('description', ''),
+          published_at=published_at,
+          category=category
         )
         
         book.save()

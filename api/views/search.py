@@ -41,7 +41,7 @@ class SearchView(View):
       books_page = paginator.page(paginator.num_pages)
 
     page_range = paginator.get_elided_page_range(number=page_number, on_each_side=onEachSide, on_ends=onEnds)
-
+    
     context = {
       'books': books_page,  
       'query': query,
