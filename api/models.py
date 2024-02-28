@@ -61,7 +61,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     bio = models.TextField()
-    image = models.ImageField(upload_to=user_directory_path, verbose_name='画像', null=True, blank=True)
+    image = models.ImageField(upload_to=user_directory_path,verbose_name='画像', null=True, blank=True)
 
     def delete_old_image(self):
         if self.image:
