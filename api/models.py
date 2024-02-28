@@ -46,28 +46,32 @@ class User(AbstractBaseUser,PermissionsMixin):
 
 def user_directory_path(instance, filename):
     # 画像ファイルのファイル名を user_id.png の形式にする
-    return 'profile_images/{0}.png'.format(instance.user.id)
+    return 'profile_images/{0}.jpeg'.format(instance.user.id)
 
 
 import os
 from django.conf import settings
+
+from cloudinary.uploader import destroy
+import cloudinary
+
 
 class Profile(models.Model):
     id =  models.CharField(default="tsugiyomu", primary_key=True, max_length=10, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     bio = models.TextField()
-    image = models.ImageField(upload_to=user_directory_path, default='default.png')
-    # 画像を削除する。
-    # もっと良い方法があれば変更したい。
+    image = models.ImageField(upload_to=user_directory_path, verbose_name='画像', null=True, blank=True)
+
     def delete_old_image(self):
-        if self.image and hasattr(self.image, 'url'):
-            # 古い画像のファイルパスを取得する。
-            old_image_path = self.image.path
-            # デフォルトの画像でない場合は削除する。
-            if old_image_path != os.path.join(settings.MEDIA_ROOT, 'default.png'):
-                if os.path.isfile(old_image_path):
-                    os.remove(old_image_path)
+        if self.image:
+            # CloudinaryのURLからパブリックIDを抽出
+            print("古い画像を削除します")
+            public_id = self.image.name.split('/')[-1].split('.')[0]
+            print("media/profile_images/"+public_id)
+            destroy("media/profile_images/"+public_id)
+           
+
     def __str__(self):
       return self.name
 

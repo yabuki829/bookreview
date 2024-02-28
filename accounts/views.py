@@ -59,8 +59,8 @@ def activate(request, token):
         return HttpResponse("無効なトークンです。")
 
 
-
-
+from cloudinary.uploader import destroy
+import cloudinary
 
 class UserPageView(View):
     def get(self,request,pk):
@@ -87,6 +87,7 @@ class UserPageView(View):
 
         return render(request, 'mypage.html', context)
 
+
 class MyPageView(View):
         # 自分の読んだ本の一覧を表示する -> レビューをつけた本
         # 名前の変更
@@ -95,6 +96,10 @@ class MyPageView(View):
         # アカウントの削除　
     
     def get(self,request):
+        print("削除します")
+
+        destroy("media/profile_images/d884ae52-3e0c-481b-98fa-42c457102fad_tlkix9")
+        # 
         if not request.user.is_authenticated:
             #HttpResponseRedirect: redirectとの違いはアプリを超えてリダイレクトできることらしい
             return HttpResponseRedirect(reverse('login'))  
@@ -128,6 +133,7 @@ class MyPageView(View):
         profile = Profile.objects.get(user=request.user)
         profile.name = username
         profile.bio = bio
+
         if image:
             # 古い画像を削除する
             profile.delete_old_image()

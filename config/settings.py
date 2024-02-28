@@ -24,9 +24,9 @@ SECRET_KEY = 'django-insecure-q4*b+fq$4)_$h-=21e0)bj2hjg#(sy)id6f3-9_36(=jneths-
 
 # SECURITY WA
 # RNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
-DEBUG = False
+# DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "api",
     'ckeditor',
+    'cloudinary', 
+    'cloudinary_storage',
 
 ]
 
@@ -197,35 +199,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 CKEDITOR_BASEPATH = "/staticfiles/ckeditor/ckeditor/"
 
-# CKEDITOR_CONFIGS = {
-#     'custom_toolbar': {
-#         'width': '100%',
-#         'toolbar_Custom': [
-#             ['Bold', 'Underline', 'Strike', 'FontSize', 'RemoveFormat', 'Blockquote','Table','HorizontalRule'],
-#             ['TextColor', 'BGColor'],
-#             ['Undo', 'Redo'],
-#             ['CodeSnippet'],
-#             ['Link', 'Unlink'],
-#             ['Find', 'Replace'],
-#             ['NumberedList', 'BulletedList','-','CreateDiv'],
-#             ['Format'],
-#             ['Outdent', 'Indent'],
-#             ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-#             ['Image'],
-#             ['Preview','Source','ShowBlocks','Maximize'],
-#         ],
-#         'codeSnippet_theme': 'monokai',
-#         'skin': 'moono-lisa',
-#         'codeSnippet_language': {
-#             'python': 'Python',
-#         },
-#         'toolbar': 'Custom',
-#         'extraPlugins': ','.join(['codesnippet', 'uploadimage']),
-#     },
-#     'default': {
-#         'width': '100%',
-#     },
-# }
 CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'Custom',
@@ -236,3 +209,26 @@ CKEDITOR_CONFIGS = {
         ]
     }
 }
+
+
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': env('CLOUDINARY_NAME'),
+    'API_KEY': env('CLOUDINARY_API_KEY'),
+    'API_SECRET': env('CLOUDINARY_API_SECRET'),
+}
+
+
+
+cloudinary.config(
+    cloud_name = env('CLOUDINARY_NAME'),
+    api_key = env('CLOUDINARY_API_KEY'),
+    api_secret = env('CLOUDINARY_API_SECRET'),
+)

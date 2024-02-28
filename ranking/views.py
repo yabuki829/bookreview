@@ -60,3 +60,4 @@ def index(request):
     
 
     return render(request, "ranking.html", {"books": books})
+
