@@ -187,9 +187,11 @@ class BookService():
   def convert_isbn13_to_isbn10(self,isbn13):
     if not isbn13.startswith('978') or len(isbn13) != 13:
         raise ValueError("ISBN-13 must start with '978' and be 13 characters long.")
-    isbn10_base = isbn13[3:-1]  # 最初の3文字を取り除き、チェックディジットを除外
+    # 最初の3文字を取り除き、チェックディジットを除外
+    isbn10_base = isbn13[3:-1] 
     checksum = 0
-    for i, char in enumerate(isbn10_base, start=1):  # ISBN-10のチェックサム計算
+     # ISBN-10のチェックサム計算
+    for i, char in enumerate(isbn10_base, start=1): 
         checksum += i * int(char)
     checksum %= 11
     if checksum == 10:
